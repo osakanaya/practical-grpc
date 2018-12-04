@@ -1,0 +1,16 @@
+syntax = "proto2";
+
+package ch3.ex13;
+
+option java_package = "uk.me.uohiro.protobuf.model.ch3.ex13";
+option java_outer_classname = "VariantProto";
+option java_multiple_files = true;
+option optimize_for = SPEED;
+
+message Test1 {
+	required int32 value = 1;
+}
+
+message Test2 {
+	required sint32 value = 1;
+}

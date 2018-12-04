@@ -46,6 +46,7 @@ public class Ex11 {
 						.build())
 				.setProducerCompany(ProducerCompanies.PARAMOUNT)
 				.setExtension(TerrorFilm.film, terrorFilm)
+				.setComment("comment")
 				.build();
 		
 		ScienceFictionFilm.Builder builder4 = ScienceFictionFilm.newBuilder();
@@ -68,6 +69,7 @@ public class Ex11 {
 						.build())
 				.setProducerCompany(ProducerCompanies.PARAMOUNT)
 				.setExtension(ScienceFictionFilm.film, scienceFictionFilm)
+				.setComment("comment")
 				.build();
 	}
 }
