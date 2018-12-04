@@ -1,0 +1,34 @@
+syntax = "proto2";
+
+package ch3.ex7;
+
+option java_package = "uk.me.uohiro.protobuf.model.ch3.ex7";
+option java_outer_classname = "FilmProto";
+option java_multiple_files = true;
+option optimize_for = SPEED;
+
+enum ProducerCompanies {
+	UNKNOWN = 0;
+	WARNER_BROS = 1;
+	PARAMOUNT = 2;
+	NETFLIX  = 3;
+}
+
+message Character {
+	required string name = 1;
+	required int64 birth = 2;
+	oneof has {
+		string laser_gun_model = 3;
+		int32 laser_sword_power = 4;
+	}
+}
+
+message Film {
+	required string title = 1;
+	required string director = 2;
+	required string producer = 3;
+	optional string release_date = 4;
+	map<string, Character> roles = 5;
+	required ProducerCompanies producer_company = 6 [default = UNKNOWN];
+}
+

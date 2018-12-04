@@ -1,0 +1,18 @@
+syntax = "proto2";
+
+package ch3.ex8;
+
+option java_package = "uk.me.uohiro.protobuf.model.ch3.ex8";
+option java_outer_classname = "CharacterProto";
+option java_multiple_files = true;
+option optimize_for = SPEED;
+
+message Character {
+	required string name = 1;
+	required int64 birth = 2;
+	oneof has {
+		string laser_gun_model = 3;
+		int32 laser_sword_power = 4;
+	}
+}
+
