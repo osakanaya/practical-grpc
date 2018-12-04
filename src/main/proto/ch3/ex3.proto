@@ -1,0 +1,21 @@
+syntax = "proto2";
+
+package ch3.ex3;
+
+option java_package = "uk.me.uohiro.protobuf.model.ch3.ex3";
+option java_outer_classname = "FilmProto";
+option java_multiple_files = true;
+option optimize_for = SPEED;
+
+message Film {
+	message Character {
+		required string name = 1;
+		required int64 birth = 2;
+	}
+
+	required string title = 1;
+	required string director = 2;
+	required string producer = 3;
+	optional string release_date = 4;
+	map<string, Character> roles = 5;
+}
