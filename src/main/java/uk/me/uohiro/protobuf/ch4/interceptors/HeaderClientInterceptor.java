@@ -10,10 +10,11 @@ import io.grpc.ForwardingClientCall.SimpleForwardingClientCall;
 import io.grpc.ForwardingClientCallListener.SimpleForwardingClientCallListener;
 import io.grpc.Metadata;
 import io.grpc.MethodDescriptor;
+import io.grpc.Status;
 
 public class HeaderClientInterceptor implements ClientInterceptor {
 	private static final Logger logger = Logger.getLogger(HeaderClientInterceptor.class.getName());
-	
+
 	static final Metadata.Key<String> CLIENT_CUSTOM_HEADER_KEY = Metadata.Key.of("who",
 			Metadata.ASCII_STRING_MARSHALLER);
 
@@ -23,23 +24,36 @@ public class HeaderClientInterceptor implements ClientInterceptor {
 	static final Metadata.Key<String> SERVER_CUSTOM_HEADER_KEY2 = Metadata.Key.of("version",
 			Metadata.ASCII_STRING_MARSHALLER);
 
-	  @Override
-	  public <ReqT, RespT> ClientCall<ReqT, RespT> interceptCall(MethodDescriptor<ReqT, RespT> method,
-	      CallOptions callOptions, Channel next) {
-	    return new SimpleForwardingClientCall<ReqT, RespT>(next.newCall(method, callOptions)) {
+	static final Metadata.Key<String> SERVER_CUSTOM_TRAILER_KEY = Metadata.Key.of("error-details",
+			Metadata.ASCII_STRING_MARSHALLER);
 
-	      @Override
-	      public void start(Listener<RespT> responseListener, Metadata headers) {
-	        headers.put(CLIENT_CUSTOM_HEADER_KEY, "starfriends-java-client");
-	        super.start(new SimpleForwardingClientCallListener<RespT>(responseListener) {
-	          @Override
-	          public void onHeaders(Metadata headers) {
-	            logger.info("header received from server [who]:" + headers.get(SERVER_CUSTOM_HEADER_KEY1));
-	            logger.info("header received from server [version]:" + headers.get(SERVER_CUSTOM_HEADER_KEY2));
-	            super.onHeaders(headers);
-	          }
-	        }, headers);
-	      }
-	    };
+	@Override
+	public <ReqT, RespT> ClientCall<ReqT, RespT> interceptCall(MethodDescriptor<ReqT, RespT> method,
+			CallOptions callOptions, Channel next) {
+		return new SimpleForwardingClientCall<ReqT, RespT>(next.newCall(method, callOptions)) {
+
+			@Override
+			public void start(Listener<RespT> responseListener, Metadata headers) {
+				headers.put(CLIENT_CUSTOM_HEADER_KEY, "starfriends-java-client");
+				super.start(new SimpleForwardingClientCallListener<RespT>(responseListener) {
+					@Override
+					public void onHeaders(Metadata headers) {
+						logger.info("header received from server [who]:" + headers.get(SERVER_CUSTOM_HEADER_KEY1));
+						logger.info("header received from server [version]:" + headers.get(SERVER_CUSTOM_HEADER_KEY2));
+
+						super.onHeaders(headers);
+					}
+
+					@Override
+					public void onClose(Status status, Metadata trailers) {
+						logger.info("header received from server [error-details]:"
+								+ trailers.get(SERVER_CUSTOM_TRAILER_KEY));
+						
+						super.onClose(status, trailers);
+					}
+				}, headers);
+
+			}
+		};
 	}
 }
