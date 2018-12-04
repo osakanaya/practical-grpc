@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package ch3.ex10;
+
+option java_package = "uk.me.uohiro.protobuf.model.ch3.ex10";
+option java_outer_classname = "FilmProto";
+option java_multiple_files = true;
+option optimize_for = SPEED;
+
+import "google/protobuf/any.proto";
+
+enum ProducerCompanies {
+	UNKNOWN = 0;
+	WARNER_BROS = 1;
+	PARAMOUNT = 2;
+	NETFLIX  = 3;
+}
+
+message Character {
+	string name = 1;
+	int64 birth = 2;
+	oneof has {
+		string laser_gun_model = 3;
+		int32 laser_sword_power = 4;
+	}
+}
+
+message Film {
+	string title = 1;
+	string director = 2;
+	string producer = 3;
+	string release_date = 4;
+	map<string, Character> roles = 5;
+	ProducerCompanies producer_company = 6;
+
+	google.protobuf.Any film_detail = 7;
+}
+
+message TerrorFilm {
+	bool has_zombies = 1;
+}
+
+message ScienceFictionFilm {
+	bool has_jedis = 1;
+}
