@@ -21,7 +21,7 @@ public class StarFriendsAPIService extends StarFriendsImplBase {
 	@Override
 	public void getFilm(GetFilmRequest request, StreamObserver<GetFilmResponse> responseObserver) {
 		for (Film film : films) {
-			if (film.getId() == request.getId()) {
+			if (film.getId().equals(request.getId())) {
 				GetFilmResponse response = GetFilmResponse.newBuilder().setFilm(film).build();
 				responseObserver.onNext(response);
 

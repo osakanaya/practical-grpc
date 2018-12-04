@@ -1,8 +1,6 @@
 package uk.me.uohiro.protobuf.ch4.service;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
