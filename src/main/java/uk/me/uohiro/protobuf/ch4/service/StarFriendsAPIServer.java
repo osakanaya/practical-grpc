@@ -6,6 +6,8 @@ import java.util.logging.Logger;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import io.grpc.ServerInterceptors;
+import uk.me.uohiro.protobuf.ch4.interceptors.HeaderServerInterceptor;
 import uk.me.uohiro.protobuf.model.ch4.Film;
 
 public class StarFriendsAPIServer {
@@ -24,7 +26,9 @@ public class StarFriendsAPIServer {
 	
 	public StarFriendsAPIServer(ServerBuilder<?> serverBuilder, int port, Collection<Film> films) {
 		this.port = port;
-		this.server = serverBuilder.addService(new StarFriendsAPIService(films)).build();
+		this.server = serverBuilder.addService(
+			ServerInterceptors.intercept(new StarFriendsAPIService(films), 
+					new HeaderServerInterceptor())).build();
 	}
 
 	public void start() throws IOException {
