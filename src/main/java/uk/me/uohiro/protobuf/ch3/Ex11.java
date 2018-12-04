@@ -1,4 +1,4 @@
-package uk.me.uohiro.protobuf.client.ch3;
+package uk.me.uohiro.protobuf.ch3;
 
 import uk.me.uohiro.protobuf.model.ch3.ex11.Film;
 import uk.me.uohiro.protobuf.model.ch3.ex11.ProducerCompanies;

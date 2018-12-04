@@ -1,12 +1,11 @@
-package uk.me.uohiro.protobuf.client.ch3;
+package uk.me.uohiro.protobuf.ch3;
 
-import uk.me.uohiro.protobuf.model.ch3.ex15.Test1;
-import uk.me.uohiro.protobuf.model.ch3.ex15.Test2;
+import uk.me.uohiro.protobuf.model.ch3.ex12.Test;
 
-public class Ex15 {
+public class Ex12 {
 	public static void main(String[] args) throws Exception {
-		Test2.Builder builder = Test2.newBuilder();
-		Test2 test = builder.setValue(Test1.newBuilder().setValue(227)).build();
+		Test.Builder builder = Test.newBuilder();
+		Test test = builder.setValue(227).build();
 		
 		System.out.println("Length: " + test.toByteArray().length);
 		System.out.print("===Byte:");

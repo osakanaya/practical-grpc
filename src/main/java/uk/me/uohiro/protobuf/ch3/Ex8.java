@@ -1,8 +1,11 @@
-package uk.me.uohiro.protobuf.client.ch3;
+package uk.me.uohiro.protobuf.ch3;
 
-import uk.me.uohiro.protobuf.model.ch3.ex4.Film;
+import uk.me.uohiro.protobuf.model.ch3.ex8.Film;
+import uk.me.uohiro.protobuf.model.ch3.ex8.ProducerCompanies;
+import uk.me.uohiro.protobuf.model.ch3.ex8.Character;
 
-public class Ex4 {
+public class Ex8 {
+	@SuppressWarnings("unused")
 	public static void main(String[] args) throws Exception {
 		Film.Builder builder = Film.newBuilder();
 
@@ -12,15 +15,13 @@ public class Ex4 {
 				.setProducer("producer")
 				.setReleaseDate("2018/12/04")
 				.putRoles("main", 
-						Film.Character.newBuilder()
+						Character.newBuilder()
 						.setName("character.name")
 						.setBirth(1L)
 						.setLaserGunModel("laser_gun_model")	// not effective
 						.setLaserSwordPower(100)
 						.build())
+				.setProducerCompany(ProducerCompanies.PARAMOUNT)
 				.build();
-		
-		System.out.println(film.getRolesOrThrow("main").hasLaserGunModel());	// false
-		System.out.println(film.getRolesOrThrow("main").hasLaserSwordPower());	// true
 	}
 }

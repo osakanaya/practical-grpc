@@ -1,10 +1,8 @@
-package uk.me.uohiro.protobuf.client.ch3;
+package uk.me.uohiro.protobuf.ch3;
 
-import uk.me.uohiro.protobuf.model.ch3.ex5.Film;
-import uk.me.uohiro.protobuf.model.ch3.ex5.Film.ProducerCompanies;
+import uk.me.uohiro.protobuf.model.ch3.ex4.Film;
 
-public class Ex5 {
-	@SuppressWarnings("unused")
+public class Ex4 {
 	public static void main(String[] args) throws Exception {
 		Film.Builder builder = Film.newBuilder();
 
@@ -20,7 +18,9 @@ public class Ex5 {
 						.setLaserGunModel("laser_gun_model")	// not effective
 						.setLaserSwordPower(100)
 						.build())
-				.setProducerCompany(ProducerCompanies.PARAMOUNT)
 				.build();
+		
+		System.out.println(film.getRolesOrThrow("main").hasLaserGunModel());	// false
+		System.out.println(film.getRolesOrThrow("main").hasLaserSwordPower());	// true
 	}
 }
