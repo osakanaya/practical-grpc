@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package ch6.ex3;
+
+option java_package = "uk.me.uohiro.protobuf.model.ch6.ex3";
+option java_outer_classname = "TokenizerServiceProto";
+option java_multiple_files = true;
+option optimize_for = SPEED;
+
+service Tokenizer {
+	rpc Tokenize(stream TokenizeRequest) returns (stream TokenizeResponse);
+}
+
+message TokenizeRequest {
+	bytes file_contents = 1;
+}
+
+message TokenizeResponse {
+	map<string, int64> words = 1;
+}
