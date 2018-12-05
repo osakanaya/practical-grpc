@@ -2,7 +2,9 @@ package uk.me.uohiro.protobuf.ch6.client;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +26,7 @@ public class ArchiverClient {
 
 	private static final String FILE_LOCATION = "C:/temp";
 	private static final String BASE_FILE = FILE_LOCATION + File.separator + "image.jpg";
+	private static final String ZIPPED_FILE = FILE_LOCATION + File.separator + "archive.zip";
 	
 	private final ManagedChannel channel;
 	private final ArchiverStub asyncStub;
@@ -41,32 +44,52 @@ public class ArchiverClient {
 		channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
 	}
 
-	public void archive(String fileName) {
+	public void archive(String fileName) throws InterruptedException {
 		info("*** archive: file={0}", fileName);
+		final CountDownLatch finishLatch = new CountDownLatch(1);
 
 		StreamObserver<ZipResponse> responseObserver = new StreamObserver<ZipResponse>() {
 
 			@Override
 			public void onCompleted() {
-				info("Finished archiving.");
+				info("Archive Completed.");
+				finishLatch.countDown();
 			}
 
 			@Override
 			public void onError(Throwable t) {
-				warning("RecordRoute Failed: {0}", Status.fromThrowable(t));
+				warning("Archive Failed: {0}", Status.fromThrowable(t));
+				finishLatch.countDown();
 			}
 
 			@Override
 			public void onNext(ZipResponse response) {
-				info("Finished archiving.");
+				info("Zipped contents received.");
+
+				FileOutputStream fos = null;
+				try {
+					fos = new FileOutputStream(ZIPPED_FILE);
+					response.getZippedContents().writeTo(fos);
+
+					info("Zipped file placed.");
+				} catch (IOException e) {
+					warning("Error when placing zipped contents to a file: {0}", e.getMessage());
+				} finally {
+					if (fos != null) {
+						try {
+							fos.close();
+						} catch (IOException e) {
+						}
+					}
+				}
 			}
-			
 		};
 		
 		StreamObserver<ZipRequest> requestObserver = asyncStub.zip(responseObserver);
-
+		
 		try {
-			requestObserver.onNext(ZipRequest.newBuilder().setFileName("test1.jpg").setContents(readFile()).build());
+			ZipRequest request = ZipRequest.newBuilder().setFileName("test1.jpg").setContents(readFile()).build();
+			requestObserver.onNext(request);
 		} catch (StatusRuntimeException e) {
 			warning("RPC failed: {0}", e.getStatus());
 			requestObserver.onError(e);
@@ -76,6 +99,9 @@ public class ArchiverClient {
 		}
 		
 		requestObserver.onCompleted();
+	
+		// ZIPファイル受信まで待機する
+		finishLatch.await();
 	}
 	
 	public ByteString readFile() throws IOException {
@@ -83,7 +109,6 @@ public class ArchiverClient {
 
 		try {
 			fis = new FileInputStream(BASE_FILE);
-			
 			return ByteString.readFrom(fis);
 		} finally {
 			if (fis != null) fis.close();
@@ -95,6 +120,7 @@ public class ArchiverClient {
 		ArchiverClient client = new ArchiverClient("localhost", 8080);
 
 		try {
+			// TODO:パラレルに送信できるようにする
 			client.archive("test1.jpg");
 		} finally {
 			client.shutdown();

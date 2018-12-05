@@ -25,24 +25,21 @@ public class ArchiverService extends ArchiverImplBase {
 			
 			@Override
 			public void onCompleted() {
-				System.out.println("onCompleted");
+				System.out.println("onCompleted called.");
+				
 				try {
+					zipOut.close();
 					responseObserver.onNext(
-							ZipResponse.newBuilder().setZippedContents(ByteString.copyFrom(baos.toByteArray())).build()
-						);
+						ZipResponse.newBuilder().setZippedContents(ByteString.copyFrom(baos.toByteArray())).build()
+					);
 						
 					responseObserver.onCompleted();
+				} catch (IOException e) {
+					onError(e);
 				} finally {
 					if (baos != null) {
 						try {
 							baos.close();
-						} catch (IOException e) {
-						}
-					}
-					
-					if (zipOut != null) {
-						try {
-							zipOut.close();
 						} catch (IOException e) {
 						}
 					}
@@ -51,7 +48,8 @@ public class ArchiverService extends ArchiverImplBase {
 
 			@Override
 			public void onError(Throwable t) {
-				System.out.println("onError");
+				System.out.println("onError called.");
+				
 				try {
 					responseObserver.onError(
 							Status.INTERNAL
@@ -77,7 +75,8 @@ public class ArchiverService extends ArchiverImplBase {
 
 			@Override
 			public void onNext(ZipRequest request) {
-				System.out.println("onNext");
+				System.out.println("onNext called.");
+				
 				try {
 					ZipEntry entry = new ZipEntry(request.getFileName());
 					zipOut.putNextEntry(entry);
