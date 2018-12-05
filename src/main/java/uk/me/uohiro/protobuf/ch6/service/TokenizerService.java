@@ -46,6 +46,12 @@ public class TokenizerService extends TokenizerImplBase {
 					
 					String line;
 					while ((line = br.readLine()) != null) {
+						if (line.equals("")) {
+							continue;
+						}
+						
+						line = line.replace(".", "").replace(",", "");
+						
 						for (String word : line.split("\\s")) {
 							if (words.containsKey(word.toLowerCase())) {
 								long current = words.get(word.toLowerCase());
