@@ -1,6 +1,7 @@
 package uk.me.uohiro.protobuf.ch6.service;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -24,24 +25,59 @@ public class ArchiverService extends ArchiverImplBase {
 			
 			@Override
 			public void onCompleted() {
-				responseObserver.onNext(
-					ZipResponse.newBuilder().setZippedContents(ByteString.copyFrom(baos.toByteArray())).build()
-				);
-				
-				responseObserver.onCompleted();
+				System.out.println("onCompleted");
+				try {
+					responseObserver.onNext(
+							ZipResponse.newBuilder().setZippedContents(ByteString.copyFrom(baos.toByteArray())).build()
+						);
+						
+					responseObserver.onCompleted();
+				} finally {
+					if (baos != null) {
+						try {
+							baos.close();
+						} catch (IOException e) {
+						}
+					}
+					
+					if (zipOut != null) {
+						try {
+							zipOut.close();
+						} catch (IOException e) {
+						}
+					}
+				}
 			}
 
 			@Override
 			public void onError(Throwable t) {
-				responseObserver.onError(
-						Status.INTERNAL
-						.withDescription("Error createing zip archive")
-						.withCause(t)
-						.asException());
+				System.out.println("onError");
+				try {
+					responseObserver.onError(
+							Status.INTERNAL
+							.withDescription("Error createing zip archive")
+							.withCause(t)
+							.asException());
+				} finally {
+					if (baos != null) {
+						try {
+							baos.close();
+						} catch (IOException e) {
+						}
+					}
+					
+					if (zipOut != null) {
+						try {
+							zipOut.close();
+						} catch (IOException e) {
+						}
+					}
+				}
 			}
 
 			@Override
 			public void onNext(ZipRequest request) {
+				System.out.println("onNext");
 				try {
 					ZipEntry entry = new ZipEntry(request.getFileName());
 					zipOut.putNextEntry(entry);
