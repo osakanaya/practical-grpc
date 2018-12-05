@@ -1,6 +1,7 @@
 package uk.me.uohiro.protobuf.ch6.service;
 
 import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import io.grpc.Server;
@@ -23,14 +24,14 @@ public class ArchiverServer {
 
 	public void start() throws IOException {
 		server.start();
-		logger.info("Server started, listening on " + port);
+		logger.log(Level.INFO, "Server started, listening on {0}", port);
 
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override
 			public void run() {
-				System.err.println("*** Shutting down gRPC server since JVM is shutting down.");
+				logger.warning("*** Shutting down gRPC server since JVM is shutting down.");
 				ArchiverServer.this.stop();
-				System.err.println("*** Server shut down.");
+				logger.warning("*** Server shut down.");
 			}
 		});
 	}

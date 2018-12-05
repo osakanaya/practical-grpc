@@ -2,6 +2,7 @@ package uk.me.uohiro.protobuf.ch6.service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -14,7 +15,8 @@ import uk.me.uohiro.protobuf.model.ch6.ex2.ZipRequest;
 import uk.me.uohiro.protobuf.model.ch6.ex2.ZipResponse;
 
 public class ArchiverService extends ArchiverImplBase {
-
+	private static final Logger logger = Logger.getLogger(ArchiverService.class.getName());
+	
 	public ArchiverService() {}
 	
 	@Override
@@ -25,7 +27,7 @@ public class ArchiverService extends ArchiverImplBase {
 			
 			@Override
 			public void onCompleted() {
-				System.out.println("onCompleted called.");
+				logger.info("onCompleted called.");
 				
 				try {
 					zipOut.close();
@@ -48,7 +50,7 @@ public class ArchiverService extends ArchiverImplBase {
 
 			@Override
 			public void onError(Throwable t) {
-				System.out.println("onError called.");
+				logger.info("onError called");
 				
 				try {
 					responseObserver.onError(
@@ -75,7 +77,7 @@ public class ArchiverService extends ArchiverImplBase {
 
 			@Override
 			public void onNext(ZipRequest request) {
-				System.out.println("onNext called.");
+				logger.info("onNext called: file=" + request.getFileName());
 				
 				try {
 					ZipEntry entry = new ZipEntry(request.getFileName());
