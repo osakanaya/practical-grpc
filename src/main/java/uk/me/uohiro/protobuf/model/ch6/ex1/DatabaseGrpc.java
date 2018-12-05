@@ -1,4 +1,4 @@
-package uk.me.uohiro.protobuf.model.ch6;
+package uk.me.uohiro.protobuf.model.ch6.ex1;
 
 import static io.grpc.MethodDescriptor.generateFullMethodName;
 import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
@@ -24,33 +24,33 @@ public final class DatabaseGrpc {
 
   private DatabaseGrpc() {}
 
-  public static final String SERVICE_NAME = "ch6.Database";
+  public static final String SERVICE_NAME = "ch6.ex1.Database";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<uk.me.uohiro.protobuf.model.ch6.SearchRequest,
-      uk.me.uohiro.protobuf.model.ch6.SearchResponse> getSearchMethod;
+  private static volatile io.grpc.MethodDescriptor<uk.me.uohiro.protobuf.model.ch6.ex1.SearchRequest,
+      uk.me.uohiro.protobuf.model.ch6.ex1.SearchResponse> getSearchMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "Search",
-      requestType = uk.me.uohiro.protobuf.model.ch6.SearchRequest.class,
-      responseType = uk.me.uohiro.protobuf.model.ch6.SearchResponse.class,
+      requestType = uk.me.uohiro.protobuf.model.ch6.ex1.SearchRequest.class,
+      responseType = uk.me.uohiro.protobuf.model.ch6.ex1.SearchResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
-  public static io.grpc.MethodDescriptor<uk.me.uohiro.protobuf.model.ch6.SearchRequest,
-      uk.me.uohiro.protobuf.model.ch6.SearchResponse> getSearchMethod() {
-    io.grpc.MethodDescriptor<uk.me.uohiro.protobuf.model.ch6.SearchRequest, uk.me.uohiro.protobuf.model.ch6.SearchResponse> getSearchMethod;
+  public static io.grpc.MethodDescriptor<uk.me.uohiro.protobuf.model.ch6.ex1.SearchRequest,
+      uk.me.uohiro.protobuf.model.ch6.ex1.SearchResponse> getSearchMethod() {
+    io.grpc.MethodDescriptor<uk.me.uohiro.protobuf.model.ch6.ex1.SearchRequest, uk.me.uohiro.protobuf.model.ch6.ex1.SearchResponse> getSearchMethod;
     if ((getSearchMethod = DatabaseGrpc.getSearchMethod) == null) {
       synchronized (DatabaseGrpc.class) {
         if ((getSearchMethod = DatabaseGrpc.getSearchMethod) == null) {
           DatabaseGrpc.getSearchMethod = getSearchMethod = 
-              io.grpc.MethodDescriptor.<uk.me.uohiro.protobuf.model.ch6.SearchRequest, uk.me.uohiro.protobuf.model.ch6.SearchResponse>newBuilder()
+              io.grpc.MethodDescriptor.<uk.me.uohiro.protobuf.model.ch6.ex1.SearchRequest, uk.me.uohiro.protobuf.model.ch6.ex1.SearchResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
               .setFullMethodName(generateFullMethodName(
-                  "ch6.Database", "Search"))
+                  "ch6.ex1.Database", "Search"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  uk.me.uohiro.protobuf.model.ch6.SearchRequest.getDefaultInstance()))
+                  uk.me.uohiro.protobuf.model.ch6.ex1.SearchRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  uk.me.uohiro.protobuf.model.ch6.SearchResponse.getDefaultInstance()))
+                  uk.me.uohiro.protobuf.model.ch6.ex1.SearchResponse.getDefaultInstance()))
                   .setSchemaDescriptor(new DatabaseMethodDescriptorSupplier("Search"))
                   .build();
           }
@@ -88,8 +88,8 @@ public final class DatabaseGrpc {
 
     /**
      */
-    public void search(uk.me.uohiro.protobuf.model.ch6.SearchRequest request,
-        io.grpc.stub.StreamObserver<uk.me.uohiro.protobuf.model.ch6.SearchResponse> responseObserver) {
+    public void search(uk.me.uohiro.protobuf.model.ch6.ex1.SearchRequest request,
+        io.grpc.stub.StreamObserver<uk.me.uohiro.protobuf.model.ch6.ex1.SearchResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getSearchMethod(), responseObserver);
     }
 
@@ -99,8 +99,8 @@ public final class DatabaseGrpc {
             getSearchMethod(),
             asyncServerStreamingCall(
               new MethodHandlers<
-                uk.me.uohiro.protobuf.model.ch6.SearchRequest,
-                uk.me.uohiro.protobuf.model.ch6.SearchResponse>(
+                uk.me.uohiro.protobuf.model.ch6.ex1.SearchRequest,
+                uk.me.uohiro.protobuf.model.ch6.ex1.SearchResponse>(
                   this, METHODID_SEARCH)))
           .build();
     }
@@ -126,8 +126,8 @@ public final class DatabaseGrpc {
 
     /**
      */
-    public void search(uk.me.uohiro.protobuf.model.ch6.SearchRequest request,
-        io.grpc.stub.StreamObserver<uk.me.uohiro.protobuf.model.ch6.SearchResponse> responseObserver) {
+    public void search(uk.me.uohiro.protobuf.model.ch6.ex1.SearchRequest request,
+        io.grpc.stub.StreamObserver<uk.me.uohiro.protobuf.model.ch6.ex1.SearchResponse> responseObserver) {
       asyncServerStreamingCall(
           getChannel().newCall(getSearchMethod(), getCallOptions()), request, responseObserver);
     }
@@ -153,8 +153,8 @@ public final class DatabaseGrpc {
 
     /**
      */
-    public java.util.Iterator<uk.me.uohiro.protobuf.model.ch6.SearchResponse> search(
-        uk.me.uohiro.protobuf.model.ch6.SearchRequest request) {
+    public java.util.Iterator<uk.me.uohiro.protobuf.model.ch6.ex1.SearchResponse> search(
+        uk.me.uohiro.protobuf.model.ch6.ex1.SearchRequest request) {
       return blockingServerStreamingCall(
           getChannel(), getSearchMethod(), getCallOptions(), request);
     }
@@ -199,8 +199,8 @@ public final class DatabaseGrpc {
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
         case METHODID_SEARCH:
-          serviceImpl.search((uk.me.uohiro.protobuf.model.ch6.SearchRequest) request,
-              (io.grpc.stub.StreamObserver<uk.me.uohiro.protobuf.model.ch6.SearchResponse>) responseObserver);
+          serviceImpl.search((uk.me.uohiro.protobuf.model.ch6.ex1.SearchRequest) request,
+              (io.grpc.stub.StreamObserver<uk.me.uohiro.protobuf.model.ch6.ex1.SearchResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -224,7 +224,7 @@ public final class DatabaseGrpc {
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
-      return uk.me.uohiro.protobuf.model.ch6.DatabaseServiceProto.getDescriptor();
+      return uk.me.uohiro.protobuf.model.ch6.ex1.DatabaseServiceProto.getDescriptor();
     }
 
     @java.lang.Override

@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package ch6;
+package ch6.ex1;
 
-option java_package = "uk.me.uohiro.protobuf.model.ch6";
+option java_package = "uk.me.uohiro.protobuf.model.ch6.ex1";
 option java_outer_classname = "DatabaseServiceProto";
 option java_multiple_files = true;
 option optimize_for = SPEED;

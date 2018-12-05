@@ -8,10 +8,10 @@ import java.util.logging.Logger;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
-import uk.me.uohiro.protobuf.model.ch6.DatabaseGrpc;
-import uk.me.uohiro.protobuf.model.ch6.DatabaseGrpc.DatabaseBlockingStub;
-import uk.me.uohiro.protobuf.model.ch6.SearchRequest;
-import uk.me.uohiro.protobuf.model.ch6.SearchResponse;
+import uk.me.uohiro.protobuf.model.ch6.ex1.DatabaseGrpc;
+import uk.me.uohiro.protobuf.model.ch6.ex1.DatabaseGrpc.DatabaseBlockingStub;
+import uk.me.uohiro.protobuf.model.ch6.ex1.SearchRequest;
+import uk.me.uohiro.protobuf.model.ch6.ex1.SearchResponse;
 
 public class DatabaseClient {
 	private static final Logger logger = Logger.getLogger(DatabaseClient.class.getName());

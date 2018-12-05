@@ -3,9 +3,9 @@ package uk.me.uohiro.protobuf.ch6.service;
 import java.util.Collection;
 
 import io.grpc.stub.StreamObserver;
-import uk.me.uohiro.protobuf.model.ch6.DatabaseGrpc.DatabaseImplBase;
-import uk.me.uohiro.protobuf.model.ch6.SearchRequest;
-import uk.me.uohiro.protobuf.model.ch6.SearchResponse;
+import uk.me.uohiro.protobuf.model.ch6.ex1.DatabaseGrpc.DatabaseImplBase;
+import uk.me.uohiro.protobuf.model.ch6.ex1.SearchRequest;
+import uk.me.uohiro.protobuf.model.ch6.ex1.SearchResponse;
 
 public class DatabaseService extends DatabaseImplBase {
 	private final Collection<String> contents;
