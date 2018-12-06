@@ -22,9 +22,9 @@ public class ErrorManagementService extends ErrorManagementImplBase {
 				responseObserver.onNext(response);
 				responseObserver.onCompleted();
 			} else {
-				throw new ManagementException("Exception message");
+				throw new CustomException("Exception message");
 			}
-		} catch (ManagementException e) {
+		} catch (CustomException e) {
             Metadata metadata = new Metadata();
             ErrorDetail detail1 = ErrorDetail.newBuilder()
                     .setKey("error1 key")
