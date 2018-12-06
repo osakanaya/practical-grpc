@@ -9,7 +9,6 @@ import io.grpc.ManagedChannelBuilder;
 import io.grpc.Metadata;
 import io.grpc.StatusRuntimeException;
 import io.grpc.protobuf.ProtoUtils;
-import uk.me.uohiro.protobuf.model.ch7.ex1.ErrorDetail;
 import uk.me.uohiro.protobuf.model.ch7.ex1.ErrorDetails;
 import uk.me.uohiro.protobuf.model.ch7.ex1.ErrorManagementGrpc;
 import uk.me.uohiro.protobuf.model.ch7.ex1.ErrorManagementGrpc.ErrorManagementBlockingStub;

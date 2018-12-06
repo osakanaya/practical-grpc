@@ -50,29 +50,7 @@ public class ArchiverService extends ArchiverImplBase {
 
 			@Override
 			public void onError(Throwable t) {
-				logger.info("onError called");
-				
-				try {
-					responseObserver.onError(
-							Status.INTERNAL
-							.withDescription("Error createing zip archive")
-							.withCause(t)
-							.asException());
-				} finally {
-					if (baos != null) {
-						try {
-							baos.close();
-						} catch (IOException e) {
-						}
-					}
-					
-					if (zipOut != null) {
-						try {
-							zipOut.close();
-						} catch (IOException e) {
-						}
-					}
-				}
+				logger.info("onError called: zip cancelled.");
 			}
 
 			@Override
@@ -85,7 +63,27 @@ public class ArchiverService extends ArchiverImplBase {
 					zipOut.write(request.getContents().toByteArray());
 					zipOut.closeEntry();
 				} catch (Exception e) {
-					onError(e);
+					try {
+						responseObserver.onError(
+								Status.INTERNAL
+								.withDescription("Error createing zip archive")
+								.withCause(e)
+								.asException());
+					} finally {
+						if (baos != null) {
+							try {
+								baos.close();
+							} catch (IOException ex) {
+							}
+						}
+						
+						if (zipOut != null) {
+							try {
+								zipOut.close();
+							} catch (IOException ex) {
+							}
+						}
+					}
 				}
 			}
 		};

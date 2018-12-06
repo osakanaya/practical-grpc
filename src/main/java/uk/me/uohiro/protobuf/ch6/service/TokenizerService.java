@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import uk.me.uohiro.protobuf.model.ch6.ex3.TokenizeRequest;
 import uk.me.uohiro.protobuf.model.ch6.ex3.TokenizeResponse;
@@ -65,7 +66,11 @@ public class TokenizerService extends TokenizerImplBase {
 					TokenizeResponse response = TokenizeResponse.newBuilder().putAllWords(words).build();
 					responseObserver.onNext(response);
 				} catch (IOException e) {
-					onError(e);
+					responseObserver.onError(
+							Status.INTERNAL
+							.withDescription("Error tokenizing file")
+							.withCause(e)
+							.asException());
 				} finally {
 					try {
 						if (is != null) {
