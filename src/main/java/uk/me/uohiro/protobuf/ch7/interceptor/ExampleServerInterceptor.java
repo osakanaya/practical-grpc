@@ -35,7 +35,6 @@ public class ExampleServerInterceptor implements ServerInterceptor {
 			final Metadata requestHeaders, ServerCallHandler<ReqT, RespT> next) {
 
 		ServerCall<ReqT, RespT> wrappedCall = new ForwardingServerCall.SimpleForwardingServerCall<ReqT, RespT>(call) {
-
 			@Override
 			public void sendMessage(RespT message) {
 				logger.info("sendMessage called.");

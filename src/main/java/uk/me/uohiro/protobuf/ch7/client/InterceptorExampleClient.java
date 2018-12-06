@@ -4,9 +4,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import io.grpc.Channel;
+import io.grpc.ClientInterceptors;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
+import uk.me.uohiro.protobuf.ch7.interceptor.ExampleClientInterceptor;
 import uk.me.uohiro.protobuf.model.ch7.ex2.GetDataRequest;
 import uk.me.uohiro.protobuf.model.ch7.ex2.GetDataResponse;
 import uk.me.uohiro.protobuf.model.ch7.ex2.InterceptorExampleGrpc;
@@ -15,7 +18,7 @@ import uk.me.uohiro.protobuf.model.ch7.ex2.InterceptorExampleGrpc.InterceptorExa
 public class InterceptorExampleClient {
 	private static final Logger logger = Logger.getLogger(InterceptorExampleClient.class.getName());
 
-	private final ManagedChannel channel;
+	private final ManagedChannel originChannel;
 	private final InterceptorExampleBlockingStub blockingStub;
 
 	public InterceptorExampleClient(String host, int port) {
@@ -23,12 +26,14 @@ public class InterceptorExampleClient {
 	}
 
 	public InterceptorExampleClient(ManagedChannelBuilder<?> channelBuilder) {
-		channel = channelBuilder.build();
+		originChannel = channelBuilder.build();
+		ExampleClientInterceptor interceptor = new ExampleClientInterceptor();
+		Channel channel = ClientInterceptors.intercept(originChannel, interceptor);
 		blockingStub = InterceptorExampleGrpc.newBlockingStub(channel);
 	}
 
 	public void shutdown() throws InterruptedException {
-		channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
+		originChannel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
 	}
 
 	public void getData(String id) {
