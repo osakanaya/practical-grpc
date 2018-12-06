@@ -1,114 +1,101 @@
 package uk.me.uohiro.protobuf.ch7.interceptor;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import io.grpc.ForwardingServerCall;
-import io.grpc.ForwardingServerCallListener.SimpleForwardingServerCallListener;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.interfaces.DecodedJWT;
+
+import io.grpc.Context;
+import io.grpc.Contexts;
 import io.grpc.Metadata;
 import io.grpc.ServerCall;
+import io.grpc.ServerCall.Listener;
 import io.grpc.ServerCallHandler;
 import io.grpc.ServerInterceptor;
 import io.grpc.Status;
-import uk.me.uohiro.protobuf.model.ch7.ex2.GetDataResponse;
+import uk.me.uohiro.protobuf.ch7.service.CustomException;
 
 public class JWTServerInterceptor implements ServerInterceptor {
 	private static final Logger logger = Logger.getLogger(JWTServerInterceptor.class.getName());
 
+	@SuppressWarnings("rawtypes")
+	private static final ServerCall.Listener NOOP_LISTENER = new Listener() {
+	};
+	
+	private final JWTVerifier verifier;
+
+	public JWTServerInterceptor(JWTVerifier verifier) {
+		this.verifier = verifier;
+	}
+	
 	/*
 	 * Message: onReady->onMessage->(execute)->onHalfClose->sendMessage->close->onComplete
 	 */
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public <ReqT, RespT> ServerCall.Listener<ReqT> interceptCall(ServerCall<ReqT, RespT> call,
 			final Metadata requestHeaders, ServerCallHandler<ReqT, RespT> next) {
 
-		ServerCall<ReqT, RespT> wrappedCall = new ForwardingServerCall.SimpleForwardingServerCall<ReqT, RespT>(call) {
-			@SuppressWarnings("unchecked")
-			@Override
-			public void sendMessage(RespT message) {
-				long endTime = new Date().getTime();
-
-				logger.info("sendMessage called.");
-				
-				super.sendMessage(message);
-			}
-
-			@Override
-			public void close(Status status, Metadata trailers) {
-				logger.info("close called.");
-
-				if (status.getCause() != null) {
-					logger.log(Level.WARNING, "status [cause][class]: {0}", status.getCause().getClass().getName());
-					logger.log(Level.WARNING, "status [cause][message]: {0}", status.getCause().getMessage());
-				}
-				
-				if (status.getCode() == Status.Code.UNKNOWN
-						&& status.getDescription() == null
-						&& status.getCause() != null
-						&& autowrapThrowables.contains(status.getCause().getClass())) {
-					Throwable t = status.getCause();
-					status = Status.INTERNAL
-							.withDescription(t.getMessage())
-							.augmentDescription(stacktraceToString(t));
-				}
-				
-				super.close(status, trailers);
-			}
-		};
+		String accessToken = requestHeaders.get(JWTConstants.JWT_METADATA_KEY);
 		
-		final ServerCall.Listener<ReqT> original = next.startCall(wrappedCall, requestHeaders);
+		// Authorizationヘッダに値がない場合はエラー
+		if (accessToken == null || accessToken.length() == 0) {
+			call.close(Status.UNAUTHENTICATED.withDescription("Access Token is missing from Metadata"), requestHeaders);
+			return NOOP_LISTENER;
+		}
 		
-		return new SimpleForwardingServerCallListener<ReqT>(original) {
-			@Override
-			public void onMessage(ReqT message) {
-				startTime = new Date().getTime();
-				
-				logger.info("onMessage called.");
-				
-				logger.log(Level.INFO, "request [method name]: {0}", call.getMethodDescriptor().getFullMethodName());
-				logger.log(Level.INFO, "request [message]: {0}", message.toString());
+		// Bearerで始まっていない場合はエラー
+		if (!accessToken.toLowerCase().startsWith(JWTConstants.BEARER_KEYWORD)) {
+			call.close(Status.UNAUTHENTICATED.withDescription("Access Token is missing from Metadata"), requestHeaders);
+			return NOOP_LISTENER;
+		}
+		
+		// Bearerを除去した後にアクセストークンが指定されていない場合はエラー
+		accessToken = accessToken.toLowerCase().substring(JWTConstants.BEARER_KEYWORD.length());
+		
+		if (accessToken == null || accessToken.length() == 0) {
+			call.close(Status.UNAUTHENTICATED.withDescription("Access Token is missing from Metadata"), requestHeaders);
+			return NOOP_LISTENER;
+		}
+		
+		Context ctx = null;
+		try {
+			DecodedJWT verified = verifier.verify(accessToken);
 
-				super.onMessage(message);
-			}
-
-			@Override
-			public void onCancel() {
-				logger.info("onCancel called.");
-				super.onCancel();
-			}
-
-			@Override
-			public void onComplete() {
-				logger.info("onComplete called.");
-				super.onComplete();
-			}
-
-			@Override
-			public void onHalfClose() {
-				logger.info("onHalfClose called.");
-				super.onHalfClose();
-			}
-
-			@Override
-			public void onReady() {
-				logger.info("onReady called.");
-				super.onReady();
-			}
-		};
+			verifyJWT(verified);
+			
+			ctx = Context.current().
+					withValue(JWTConstants.SUB_CTX_KEY, verified.getClaim("sub").asString());
+			
+		} catch (Exception e) {
+			logger.log(Level.WARNING, "Verification failed - Unauthenticated", e);
+			call.close(Status.UNAUTHENTICATED.withDescription("JWT Token is missing from Metadata"), requestHeaders);
+			return NOOP_LISTENER;
+		}
+		
+		return Contexts.interceptCall(ctx, call, requestHeaders, next);
 	}
 	
-	private String stacktraceToString(Throwable t) {
-		StringWriter stringWriter = new StringWriter();
-		PrintWriter printWriter = new PrintWriter(stringWriter);
-		t.printStackTrace(printWriter);
+	private void verifyJWT(DecodedJWT token) throws CustomException {
+		if (token.getIssuer() != null && token.getIssuer().equals(JWTConstants.TOKEN_ISSUER)) {
+			throw new CustomException("Issuer not valid");
+		}
 		
-		return stringWriter.toString();
+		if (token.getAudience() != null && token.getAudience().equals(JWTConstants.TOKEN_AUDIENCE)) {
+			throw new CustomException("Audience not valid");
+		}
+		
+		Date current = new Date();
+		
+		if (!token.getIssuedAt().before(current)) {
+			throw new CustomException("Token is not valid yet.");
+		}
+		
+		if (!token.getExpiresAt().after(current)) {
+			throw new CustomException("Token is already expired.");
+		}
 	}
 }

@@ -8,13 +8,12 @@ option java_multiple_files = true;
 option optimize_for = SPEED;
 
 service ProtectedResource {
-	rpc GetData(GetDataRequest) returns (GetDataResponse);
+	rpc SayHello(Empty) returns (Greeting);
 }
 
-message GetDataRequest {
-	string id = 1;
+message Empty {
 }
 
-message GetDataResponse {
-	string data = 2;
+message Greeting {
+	string greeting = 2;
 }
