@@ -24,6 +24,11 @@ public final class InterceptorAPIProto {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_ch7_ex2_GetDataResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ch7_ex2_Empty_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_ch7_ex2_Empty_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -35,11 +40,13 @@ public final class InterceptorAPIProto {
     java.lang.String[] descriptorData = {
       "\n\025ch7/interceptor.proto\022\007ch7.ex2\"\034\n\016GetD" +
       "ataRequest\022\n\n\002id\030\001 \001(\t\"\037\n\017GetDataRespons" +
-      "e\022\014\n\004data\030\002 \001(\t2R\n\022InterceptorExample\022<\n" +
-      "\007GetData\022\027.ch7.ex2.GetDataRequest\032\030.ch7." +
-      "ex2.GetDataResponseB>\n#uk.me.uohiro.prot" +
-      "obuf.model.ch7.ex2B\023InterceptorAPIProtoH" +
-      "\001P\001b\006proto3"
+      "e\022\014\n\004data\030\002 \001(\t\"\007\n\005Empty2\217\001\n\022Interceptor" +
+      "Example\022<\n\007GetData\022\027.ch7.ex2.GetDataRequ" +
+      "est\032\030.ch7.ex2.GetDataResponse\022;\n\rGetStre" +
+      "amData\022\016.ch7.ex2.Empty\032\030.ch7.ex2.GetData" +
+      "Response0\001B>\n#uk.me.uohiro.protobuf.mode" +
+      "l.ch7.ex2B\023InterceptorAPIProtoH\001P\001b\006prot" +
+      "o3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -65,6 +72,12 @@ public final class InterceptorAPIProto {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ch7_ex2_GetDataResponse_descriptor,
         new java.lang.String[] { "Data", });
+    internal_static_ch7_ex2_Empty_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_ch7_ex2_Empty_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_ch7_ex2_Empty_descriptor,
+        new java.lang.String[] { });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

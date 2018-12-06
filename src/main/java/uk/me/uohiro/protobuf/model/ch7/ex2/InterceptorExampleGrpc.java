@@ -59,6 +59,38 @@ public final class InterceptorExampleGrpc {
      return getGetDataMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<uk.me.uohiro.protobuf.model.ch7.ex2.Empty,
+      uk.me.uohiro.protobuf.model.ch7.ex2.GetDataResponse> getGetStreamDataMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "GetStreamData",
+      requestType = uk.me.uohiro.protobuf.model.ch7.ex2.Empty.class,
+      responseType = uk.me.uohiro.protobuf.model.ch7.ex2.GetDataResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+  public static io.grpc.MethodDescriptor<uk.me.uohiro.protobuf.model.ch7.ex2.Empty,
+      uk.me.uohiro.protobuf.model.ch7.ex2.GetDataResponse> getGetStreamDataMethod() {
+    io.grpc.MethodDescriptor<uk.me.uohiro.protobuf.model.ch7.ex2.Empty, uk.me.uohiro.protobuf.model.ch7.ex2.GetDataResponse> getGetStreamDataMethod;
+    if ((getGetStreamDataMethod = InterceptorExampleGrpc.getGetStreamDataMethod) == null) {
+      synchronized (InterceptorExampleGrpc.class) {
+        if ((getGetStreamDataMethod = InterceptorExampleGrpc.getGetStreamDataMethod) == null) {
+          InterceptorExampleGrpc.getGetStreamDataMethod = getGetStreamDataMethod = 
+              io.grpc.MethodDescriptor.<uk.me.uohiro.protobuf.model.ch7.ex2.Empty, uk.me.uohiro.protobuf.model.ch7.ex2.GetDataResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+              .setFullMethodName(generateFullMethodName(
+                  "ch7.ex2.InterceptorExample", "GetStreamData"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  uk.me.uohiro.protobuf.model.ch7.ex2.Empty.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  uk.me.uohiro.protobuf.model.ch7.ex2.GetDataResponse.getDefaultInstance()))
+                  .setSchemaDescriptor(new InterceptorExampleMethodDescriptorSupplier("GetStreamData"))
+                  .build();
+          }
+        }
+     }
+     return getGetStreamDataMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -93,6 +125,13 @@ public final class InterceptorExampleGrpc {
       asyncUnimplementedUnaryCall(getGetDataMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void getStreamData(uk.me.uohiro.protobuf.model.ch7.ex2.Empty request,
+        io.grpc.stub.StreamObserver<uk.me.uohiro.protobuf.model.ch7.ex2.GetDataResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getGetStreamDataMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -102,6 +141,13 @@ public final class InterceptorExampleGrpc {
                 uk.me.uohiro.protobuf.model.ch7.ex2.GetDataRequest,
                 uk.me.uohiro.protobuf.model.ch7.ex2.GetDataResponse>(
                   this, METHODID_GET_DATA)))
+          .addMethod(
+            getGetStreamDataMethod(),
+            asyncServerStreamingCall(
+              new MethodHandlers<
+                uk.me.uohiro.protobuf.model.ch7.ex2.Empty,
+                uk.me.uohiro.protobuf.model.ch7.ex2.GetDataResponse>(
+                  this, METHODID_GET_STREAM_DATA)))
           .build();
     }
   }
@@ -131,6 +177,14 @@ public final class InterceptorExampleGrpc {
       asyncUnaryCall(
           getChannel().newCall(getGetDataMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void getStreamData(uk.me.uohiro.protobuf.model.ch7.ex2.Empty request,
+        io.grpc.stub.StreamObserver<uk.me.uohiro.protobuf.model.ch7.ex2.GetDataResponse> responseObserver) {
+      asyncServerStreamingCall(
+          getChannel().newCall(getGetStreamDataMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -156,6 +210,14 @@ public final class InterceptorExampleGrpc {
     public uk.me.uohiro.protobuf.model.ch7.ex2.GetDataResponse getData(uk.me.uohiro.protobuf.model.ch7.ex2.GetDataRequest request) {
       return blockingUnaryCall(
           getChannel(), getGetDataMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public java.util.Iterator<uk.me.uohiro.protobuf.model.ch7.ex2.GetDataResponse> getStreamData(
+        uk.me.uohiro.protobuf.model.ch7.ex2.Empty request) {
+      return blockingServerStreamingCall(
+          getChannel(), getGetStreamDataMethod(), getCallOptions(), request);
     }
   }
 
@@ -187,6 +249,7 @@ public final class InterceptorExampleGrpc {
   }
 
   private static final int METHODID_GET_DATA = 0;
+  private static final int METHODID_GET_STREAM_DATA = 1;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -207,6 +270,10 @@ public final class InterceptorExampleGrpc {
       switch (methodId) {
         case METHODID_GET_DATA:
           serviceImpl.getData((uk.me.uohiro.protobuf.model.ch7.ex2.GetDataRequest) request,
+              (io.grpc.stub.StreamObserver<uk.me.uohiro.protobuf.model.ch7.ex2.GetDataResponse>) responseObserver);
+          break;
+        case METHODID_GET_STREAM_DATA:
+          serviceImpl.getStreamData((uk.me.uohiro.protobuf.model.ch7.ex2.Empty) request,
               (io.grpc.stub.StreamObserver<uk.me.uohiro.protobuf.model.ch7.ex2.GetDataResponse>) responseObserver);
           break;
         default:
@@ -271,6 +338,7 @@ public final class InterceptorExampleGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new InterceptorExampleFileDescriptorSupplier())
               .addMethod(getGetDataMethod())
+              .addMethod(getGetStreamDataMethod())
               .build();
         }
       }

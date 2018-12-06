@@ -9,6 +9,7 @@ option optimize_for = SPEED;
 
 service InterceptorExample {
 	rpc GetData(GetDataRequest) returns (GetDataResponse);
+	rpc GetStreamData(Empty) returns (stream GetDataResponse);
 }
 
 message GetDataRequest {
@@ -17,4 +18,7 @@ message GetDataRequest {
 
 message GetDataResponse {
 	string data = 2;
+}
+
+message Empty {
 }

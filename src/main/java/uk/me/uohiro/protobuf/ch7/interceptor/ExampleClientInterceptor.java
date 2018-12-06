@@ -73,9 +73,9 @@ public class ExampleClientInterceptor implements ClientInterceptor {
 						logger.info("onMessage called.");
 
 						long endTime = new Date().getTime();
-						logger.log(Level.INFO, "reponse [duration]: {0} ms", (endTime - startTime));
 						logger.log(Level.INFO, "response [method name]: {0}", method.getFullMethodName());
 						logger.log(Level.INFO, "response [message]: {0}", message.toString());
+						logger.log(Level.INFO, "response [duration]: {0} ms", (endTime - startTime));
 
 						super.onMessage(message);
 					}

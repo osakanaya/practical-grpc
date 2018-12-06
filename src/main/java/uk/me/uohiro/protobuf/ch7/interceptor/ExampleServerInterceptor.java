@@ -1,26 +1,29 @@
 package uk.me.uohiro.protobuf.ch7.interceptor;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import io.grpc.ForwardingServerCallListener.SimpleForwardingServerCallListener;
 import io.grpc.ForwardingServerCall;
+import io.grpc.ForwardingServerCallListener.SimpleForwardingServerCallListener;
 import io.grpc.Metadata;
 import io.grpc.ServerCall;
 import io.grpc.ServerCallHandler;
 import io.grpc.ServerInterceptor;
 import io.grpc.Status;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import uk.me.uohiro.protobuf.model.ch7.ex2.GetDataResponse;
 
 public class ExampleServerInterceptor implements ServerInterceptor {
 	private static final Logger logger = Logger.getLogger(ExampleServerInterceptor.class.getName());
 
 	private final Set<Class<? extends Throwable>> autowrapThrowables = new HashSet<>();
+	
+	private long startTime;
 	
 	public ExampleServerInterceptor(Collection<Class<? extends Throwable>> autowrapThrowables) {
 		this.autowrapThrowables.addAll(autowrapThrowables);
@@ -35,10 +38,21 @@ public class ExampleServerInterceptor implements ServerInterceptor {
 			final Metadata requestHeaders, ServerCallHandler<ReqT, RespT> next) {
 
 		ServerCall<ReqT, RespT> wrappedCall = new ForwardingServerCall.SimpleForwardingServerCall<ReqT, RespT>(call) {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void sendMessage(RespT message) {
+				long endTime = new Date().getTime();
+
 				logger.info("sendMessage called.");
 				logger.log(Level.INFO, "response [message]: {0}", message.toString());
+				logger.log(Level.INFO, "response [duration]: {0} ms", (endTime - startTime));
+				
+				// レスポンスを変換する（わざと）
+				if (message.getClass().getName().equals("uk.me.uohiro.protobuf.model.ch7.ex2.GetDataResponse")) {
+					GetDataResponse temp = (GetDataResponse)message;
+					message = (RespT)GetDataResponse.newBuilder().mergeFrom(temp).setData(temp.getData().toUpperCase()).build();
+				}
+				
 				super.sendMessage(message);
 			}
 
@@ -70,6 +84,8 @@ public class ExampleServerInterceptor implements ServerInterceptor {
 		return new SimpleForwardingServerCallListener<ReqT>(original) {
 			@Override
 			public void onMessage(ReqT message) {
+				startTime = new Date().getTime();
+				
 				logger.info("onMessage called.");
 				
 				logger.log(Level.INFO, "request [method name]: {0}", call.getMethodDescriptor().getFullMethodName());
