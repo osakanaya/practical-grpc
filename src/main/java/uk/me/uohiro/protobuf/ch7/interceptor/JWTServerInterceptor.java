@@ -40,6 +40,7 @@ public class JWTServerInterceptor implements ServerInterceptor {
 	public <ReqT, RespT> ServerCall.Listener<ReqT> interceptCall(ServerCall<ReqT, RespT> call,
 			final Metadata requestHeaders, ServerCallHandler<ReqT, RespT> next) {
 
+		// Authorizationヘッダ（メタデータ）からアクセストークンを取り出す
 		String accessToken = requestHeaders.get(JWTConstants.AUTHORIZATION_METADATA_KEY);
 
 		// Authorizationヘッダに値がない場合はエラー
@@ -55,21 +56,28 @@ public class JWTServerInterceptor implements ServerInterceptor {
 		}
 
 		// Bearerを除去した後にアクセストークンが指定されていない場合はエラー
-		accessToken = accessToken.toLowerCase().substring(JWTConstants.BEARER_KEYWORD.length());
+		String tmp = accessToken.toLowerCase().substring(JWTConstants.BEARER_KEYWORD.length());
 
-		if (accessToken == null || accessToken.length() == 0) {
+		if (tmp == null || tmp.length() == 0) {
 			call.close(Status.UNAUTHENTICATED.withDescription("Access Token is missing from Metadata"), requestHeaders);
 			return NOOP_LISTENER;
 		}
 
+		accessToken = accessToken.substring(JWTConstants.BEARER_KEYWORD.length());
 		logger.info("Access token: " + accessToken);
 		
 		Context ctx = null;
 		try {
+			// Compact Serialization形式のJWTトークンをパースする
 			SignedJWT signedJWT = SignedJWT.parse(accessToken);
+			
+			logger.info(signedJWT.getHeader().toJSONObject().toJSONString());
+			logger.info(signedJWT.getPayload().toJSONObject().toJSONString());
 
+			// JWTトークンの署名、ペイロードの中身を検証する
 			verifyJWT(signedJWT);
 
+			// コンテキストにJWTトークンのsubクレームの値を追加する
 			ctx = Context.current().withValue(JWTConstants.SUB_CTX_KEY, signedJWT.getJWTClaimsSet().getSubject());
 
 		} catch (Exception e) {
@@ -82,22 +90,26 @@ public class JWTServerInterceptor implements ServerInterceptor {
 	}
 
 	private void verifyJWT(SignedJWT token) throws Exception {
-		JWSVerifier verifier = new RSASSAVerifier((RSAPublicKey) JWTUtil.loadRSAPublicKey());
+		JWSVerifier verifier = new RSASSAVerifier((RSAPublicKey)JWTUtil.loadRSAPublicKey());
 
+		// 署名を検証する
 		if (!token.verify(verifier)) {
 			throw new CustomException("Cannot validate signature");
 		}
 
-		if (token.getJWTClaimsSet().getIssuer() != null
-				&& token.getJWTClaimsSet().getIssuer().equals(JWTConstants.TOKEN_ISSUER)) {
+		// Issuerを検証
+		if (token.getJWTClaimsSet().getIssuer() == null
+				|| !token.getJWTClaimsSet().getIssuer().equals(JWTConstants.TOKEN_ISSUER)) {
 			throw new CustomException("Issuer not valid");
 		}
 
-		if (token.getJWTClaimsSet().getAudience() != null
-				&& token.getJWTClaimsSet().getAudience().get(0).equals(JWTConstants.TOKEN_AUDIENCE)) {
+		// Audienceを検証
+		if (token.getJWTClaimsSet().getAudience() == null
+				|| !token.getJWTClaimsSet().getAudience().get(0).equals(JWTConstants.TOKEN_AUDIENCE)) {
 			throw new CustomException("Audience not valid");
 		}
 
+		// JWTトークンが有効期限切れでないことを検証
 		Date current = new Date();
 
 		if (!token.getJWTClaimsSet().getIssueTime().before(current)) {

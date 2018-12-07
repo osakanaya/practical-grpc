@@ -42,6 +42,7 @@ public class OAuthClient {
 		info("*** SayHello ***");
 
 		try {
+			// コンテキストに生成したJWTトークンを追加してから、RPCを実行する
 			Context.current().withValue(JWTConstants.AUTHORIZATION_CTX_KEY, "Bearer " + JWTUtil.createJWTToken()).run(() -> {
 				Empty request = Empty.newBuilder().build();
 				Greeting response = blockingStub.sayHello(request);
@@ -56,7 +57,6 @@ public class OAuthClient {
 	}
 	
 	public static void main(String[] args) throws Exception {
-
 		OAuthClient client = new OAuthClient("localhost", 8080);
 		
 		try {

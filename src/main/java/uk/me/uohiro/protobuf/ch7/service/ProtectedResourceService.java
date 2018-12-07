@@ -17,6 +17,7 @@ public class ProtectedResourceService extends ProtectedResourceImplBase {
 	
 	@Override
 	public void sayHello(Empty request, StreamObserver<Greeting> responseObserver) {
+		// コンテキストからJWTトークンのsubクレームの値を取得する
 		String sub = JWTConstants.SUB_CTX_KEY.get();
 		logger.log(Level.INFO, "sub: {0}", sub);
 

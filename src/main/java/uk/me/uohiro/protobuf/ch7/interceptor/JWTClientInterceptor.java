@@ -20,8 +20,9 @@ public class JWTClientInterceptor implements ClientInterceptor {
 				channel.newCall(methodDescriptor, callOptions)) {
 			@Override
 			public void start(Listener<RespT> responseListener, Metadata headers) {
-				logger.info("ClientInterceptor: [accesstoken]" + JWTConstants.AUTHORIZATION_CTX_KEY.get());
-				
+				logger.info("ClientInterceptor: [access token]" + JWTConstants.AUTHORIZATION_CTX_KEY.get());
+
+				// コンテキストからJWTトークンを取り出し、メタデータに設定する
 				headers.put(JWTConstants.AUTHORIZATION_METADATA_KEY, JWTConstants.AUTHORIZATION_CTX_KEY.get());
 				super.start(responseListener, headers);
 			}
