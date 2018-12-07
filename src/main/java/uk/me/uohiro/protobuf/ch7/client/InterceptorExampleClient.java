@@ -86,5 +86,4 @@ public class InterceptorExampleClient {
 	private void warning(String msg, Object... params) {
 		logger.log(Level.WARNING, msg, params);
 	}
-
 }
