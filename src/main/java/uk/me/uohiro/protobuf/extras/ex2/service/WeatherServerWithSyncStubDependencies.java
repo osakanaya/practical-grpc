@@ -23,9 +23,9 @@ import uk.me.uohiro.protobuf.model.extras.ex2.Wind;
 import uk.me.uohiro.protobuf.model.extras.ex2.WindServiceGrpc;
 import uk.me.uohiro.protobuf.model.extras.ex2.WindServiceGrpc.WindServiceBlockingStub;
 
-public class WeatherServerWithSyncDependencies {
+public class WeatherServerWithSyncStubDependencies {
 
-	private static final Logger logger = Logger.getLogger(WeatherServerWithSyncDependencies.class.getName());
+	private static final Logger logger = Logger.getLogger(WeatherServerWithSyncStubDependencies.class.getName());
 
 	private final String host;
 	private final int port;
@@ -39,11 +39,11 @@ public class WeatherServerWithSyncDependencies {
 	private final HumidityServiceBlockingStub humidityServiceBlockingStub;
 	private final WindServiceBlockingStub windServiceBlockingStub;
 
-	public WeatherServerWithSyncDependencies(String host, int port) throws IOException {
+	public WeatherServerWithSyncStubDependencies(String host, int port) throws IOException {
 		this(NettyServerBuilder.forPort(port), host, port);
 	}
 
-	public WeatherServerWithSyncDependencies(ServerBuilder<?> serverBuilder, String host, int port) {
+	public WeatherServerWithSyncStubDependencies(ServerBuilder<?> serverBuilder, String host, int port) {
 		this.host = host;
 		this.port = port;
 		
@@ -72,7 +72,7 @@ public class WeatherServerWithSyncDependencies {
 			public void run() {
 				System.err.println("*** Shutting down gRPC server since JVM is shutting down.");
 				try {
-					WeatherServerWithSyncDependencies.this.stop();
+					WeatherServerWithSyncStubDependencies.this.stop();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -97,7 +97,7 @@ public class WeatherServerWithSyncDependencies {
 	}
 
 	public static void main(String[] args) throws Exception {
-		WeatherServerWithSyncDependencies server = new WeatherServerWithSyncDependencies("localhost", 8080);
+		WeatherServerWithSyncStubDependencies server = new WeatherServerWithSyncStubDependencies("localhost", 8080);
 		server.start();
 		server.blockUntilShutdown();
 	}
