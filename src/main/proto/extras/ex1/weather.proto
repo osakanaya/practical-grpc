@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package extras.ex1;
+
+option java_package = "uk.me.uohiro.protobuf.model.extras.ex1";
+option java_outer_classname = "WeatherAPIProto";
+option java_multiple_files = true;
+option optimize_for = SPEED;
+
+service Weather {
+	rpc GetCurrent(WeatherRequest) returns (WeatherResponse);
+}
+
+message WeatherRequest {
+	Coordinates coordinates = 1;
+	
+	message Coordinates {
+		fixed64 latitude = 1;
+		fixed64 longitude = 2;
+	}
+}
+
+message WeatherResponse {
+	Temperature temperature = 1;
+	float humidity = 2;
+}
+
+message Temperature {
+	float degrees = 1;
+	Units units = 2;
+	
+	enum Units {
+		FAHRENHEIT = 0;
+		CELCIUS = 1;
+		KELVIN = 2;
+	}
+}
