@@ -82,8 +82,8 @@ public class DeadlineServer {
 				context.getDeadline().runOnExpiration(() -> {
 					logger.info("[fast]Deadline exceeded!");
 				}, Executors.newSingleThreadScheduledExecutor());
-				
-				responseObserver.onNext(DeadlineResponse.newBuilder().setMessage("success - fast").build());
+
+				responseObserver.onNext(DeadlineResponse.newBuilder().addResult("success - fast").build());
 				responseObserver.onCompleted();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -109,7 +109,7 @@ public class DeadlineServer {
 					logger.info("[slow]Deadline exceeded!");
 				}, Executors.newSingleThreadScheduledExecutor());
 
-				responseObserver.onNext(DeadlineResponse.newBuilder().setMessage("success - slow").build());
+				responseObserver.onNext(DeadlineResponse.newBuilder().addResult("success - slow").build());
 				responseObserver.onCompleted();
 			} catch (Exception e) {
 				e.printStackTrace();

@@ -8,12 +8,21 @@ public interface DeadlineResponseOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>string message = 1;</code>
+   * <code>repeated string result = 1;</code>
    */
-  java.lang.String getMessage();
+  java.util.List<java.lang.String>
+      getResultList();
   /**
-   * <code>string message = 1;</code>
+   * <code>repeated string result = 1;</code>
+   */
+  int getResultCount();
+  /**
+   * <code>repeated string result = 1;</code>
+   */
+  java.lang.String getResult(int index);
+  /**
+   * <code>repeated string result = 1;</code>
    */
   com.google.protobuf.ByteString
-      getMessageBytes();
+      getResultBytes(int index);
 }

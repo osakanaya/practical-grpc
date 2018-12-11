@@ -37,10 +37,10 @@ public class DeadlineClient1 {
 		DeadlineResponse response = null;
 		try {
 			response = blockingStub.fast(request);
-			info("Response: {0}", response.getMessage());
+			info("Response: {0}", String.join(",", response.getResultList()));
 			
 			response = blockingStub.slow(request);
-			info("Response: {0}", response.getMessage());
+			info("Response: {0}", String.join(",", response.getResultList()));
 		} catch (StatusRuntimeException e) {
 			warning("RPC failed [code]: {0}", e.getStatus().getCode());
 			warning("RPC failed [descrition]: {0}", e.getStatus().getDescription()); // Error description<cr>Augmented description]

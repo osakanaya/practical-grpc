@@ -37,10 +37,10 @@ public class DeadlineClient2 {
 		DeadlineResponse response = null;
 		try {
 			response = blockingStub.withDeadlineAfter(3000L, TimeUnit.MILLISECONDS).fast(request);
-			info("Response: {0}", response.getMessage());
+			info("Response: {0}", String.join(",", response.getResultList()));
 			
 			response = blockingStub.withDeadlineAfter(3000L, TimeUnit.MILLISECONDS).slow(request);
-			info("Response: {0}", response.getMessage());
+			info("Response: {0}", String.join(",", response.getResultList()));
 		} catch (StatusRuntimeException e) {
 			warning("RPC failed [code]: {0}", e.getStatus().getCode());
 			warning("RPC failed [descrition]: {0}", e.getStatus().getDescription()); // Error description<cr>Augmented description]

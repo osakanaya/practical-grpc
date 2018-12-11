@@ -26,5 +26,5 @@ message Empty {
 }
 
 message DeadlineResponse {
-	string message = 1;
+	repeated string result = 1;
 }

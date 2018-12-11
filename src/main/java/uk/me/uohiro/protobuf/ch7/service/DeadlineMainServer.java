@@ -69,7 +69,7 @@ public class DeadlineMainServer {
 	}
 
 	public static void main(String[] args) throws Exception {
-		DeadlineMainServer server = new DeadlineMainServer("localhost", 8101);
+		DeadlineMainServer server = new DeadlineMainServer("localhost", 8100);
 		server.start();
 		server.blockUntilShutdown();
 	}
@@ -99,7 +99,9 @@ public class DeadlineMainServer {
 				logger.info("[main-fast-after]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
 				logger.info("[main-fast-after]Invoke cancelled?: " + context.isCancelled());
 
-				DeadlineResponse mainResponse = DeadlineResponse.newBuilder().setMessage("maim-success-fast," + subResponse.getMessage()).build();
+				DeadlineResponse mainResponse = DeadlineResponse.newBuilder()
+						.addResult("maim-success-fast")
+						.addAllResult(subResponse.getResultList()).build();
 				responseObserver.onNext(mainResponse);
 				responseObserver.onCompleted();
 			} catch (Exception e) {
@@ -125,7 +127,9 @@ public class DeadlineMainServer {
 				logger.info("[main-slow-after]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
 				logger.info("[main-slow-after]Invoke cancelled?: " + context.isCancelled());
 
-				DeadlineResponse mainResponse = DeadlineResponse.newBuilder().setMessage("maim-success-slow," + subResponse.getMessage()).build();
+				DeadlineResponse mainResponse = DeadlineResponse.newBuilder()
+						.addResult("maim-success-slow")
+						.addAllResult(subResponse.getResultList()).build();
 				responseObserver.onNext(mainResponse);
 				responseObserver.onCompleted();
 			} catch (Exception e) {

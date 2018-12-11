@@ -16,7 +16,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private DeadlineResponse() {
-    message_ = "";
+    result_ = com.google.protobuf.LazyStringArrayList.EMPTY;
   }
 
   @java.lang.Override
@@ -45,8 +45,11 @@ private static final long serialVersionUID = 0L;
             break;
           case 10: {
             java.lang.String s = input.readStringRequireUtf8();
-
-            message_ = s;
+            if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              result_ = new com.google.protobuf.LazyStringArrayList();
+              mutable_bitField0_ |= 0x00000001;
+            }
+            result_.add(s);
             break;
           }
           default: {
@@ -64,6 +67,9 @@ private static final long serialVersionUID = 0L;
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e).setUnfinishedMessage(this);
     } finally {
+      if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        result_ = result_.getUnmodifiableView();
+      }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
     }
@@ -81,38 +87,33 @@ private static final long serialVersionUID = 0L;
             uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineResponse.class, uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineResponse.Builder.class);
   }
 
-  public static final int MESSAGE_FIELD_NUMBER = 1;
-  private volatile java.lang.Object message_;
+  public static final int RESULT_FIELD_NUMBER = 1;
+  private com.google.protobuf.LazyStringList result_;
   /**
-   * <code>string message = 1;</code>
+   * <code>repeated string result = 1;</code>
    */
-  public java.lang.String getMessage() {
-    java.lang.Object ref = message_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      message_ = s;
-      return s;
-    }
+  public com.google.protobuf.ProtocolStringList
+      getResultList() {
+    return result_;
   }
   /**
-   * <code>string message = 1;</code>
+   * <code>repeated string result = 1;</code>
+   */
+  public int getResultCount() {
+    return result_.size();
+  }
+  /**
+   * <code>repeated string result = 1;</code>
+   */
+  public java.lang.String getResult(int index) {
+    return result_.get(index);
+  }
+  /**
+   * <code>repeated string result = 1;</code>
    */
   public com.google.protobuf.ByteString
-      getMessageBytes() {
-    java.lang.Object ref = message_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      message_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
+      getResultBytes(int index) {
+    return result_.getByteString(index);
   }
 
   private byte memoizedIsInitialized = -1;
@@ -129,8 +130,8 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (!getMessageBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, message_);
+    for (int i = 0; i < result_.size(); i++) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, result_.getRaw(i));
     }
     unknownFields.writeTo(output);
   }
@@ -141,8 +142,13 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (!getMessageBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, message_);
+    {
+      int dataSize = 0;
+      for (int i = 0; i < result_.size(); i++) {
+        dataSize += computeStringSizeNoTag(result_.getRaw(i));
+      }
+      size += dataSize;
+      size += 1 * getResultList().size();
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -160,8 +166,8 @@ private static final long serialVersionUID = 0L;
     uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineResponse other = (uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineResponse) obj;
 
     boolean result = true;
-    result = result && getMessage()
-        .equals(other.getMessage());
+    result = result && getResultList()
+        .equals(other.getResultList());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -173,8 +179,10 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
-    hash = (53 * hash) + getMessage().hashCode();
+    if (getResultCount() > 0) {
+      hash = (37 * hash) + RESULT_FIELD_NUMBER;
+      hash = (53 * hash) + getResultList().hashCode();
+    }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -308,8 +316,8 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      message_ = "";
-
+      result_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      bitField0_ = (bitField0_ & ~0x00000001);
       return this;
     }
 
@@ -336,7 +344,12 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineResponse buildPartial() {
       uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineResponse result = new uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineResponse(this);
-      result.message_ = message_;
+      int from_bitField0_ = bitField0_;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        result_ = result_.getUnmodifiableView();
+        bitField0_ = (bitField0_ & ~0x00000001);
+      }
+      result.result_ = result_;
       onBuilt();
       return result;
     }
@@ -385,8 +398,14 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineResponse other) {
       if (other == uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineResponse.getDefaultInstance()) return this;
-      if (!other.getMessage().isEmpty()) {
-        message_ = other.message_;
+      if (!other.result_.isEmpty()) {
+        if (result_.isEmpty()) {
+          result_ = other.result_;
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          ensureResultIsMutable();
+          result_.addAll(other.result_);
+        }
         onChanged();
       }
       this.mergeUnknownFields(other.unknownFields);
@@ -417,72 +436,98 @@ private static final long serialVersionUID = 0L;
       }
       return this;
     }
+    private int bitField0_;
 
-    private java.lang.Object message_ = "";
-    /**
-     * <code>string message = 1;</code>
-     */
-    public java.lang.String getMessage() {
-      java.lang.Object ref = message_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        message_ = s;
-        return s;
-      } else {
-        return (java.lang.String) ref;
-      }
+    private com.google.protobuf.LazyStringList result_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    private void ensureResultIsMutable() {
+      if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        result_ = new com.google.protobuf.LazyStringArrayList(result_);
+        bitField0_ |= 0x00000001;
+       }
     }
     /**
-     * <code>string message = 1;</code>
+     * <code>repeated string result = 1;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getResultList() {
+      return result_.getUnmodifiableView();
+    }
+    /**
+     * <code>repeated string result = 1;</code>
+     */
+    public int getResultCount() {
+      return result_.size();
+    }
+    /**
+     * <code>repeated string result = 1;</code>
+     */
+    public java.lang.String getResult(int index) {
+      return result_.get(index);
+    }
+    /**
+     * <code>repeated string result = 1;</code>
      */
     public com.google.protobuf.ByteString
-        getMessageBytes() {
-      java.lang.Object ref = message_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        message_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+        getResultBytes(int index) {
+      return result_.getByteString(index);
     }
     /**
-     * <code>string message = 1;</code>
+     * <code>repeated string result = 1;</code>
      */
-    public Builder setMessage(
+    public Builder setResult(
+        int index, java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureResultIsMutable();
+      result_.set(index, value);
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>repeated string result = 1;</code>
+     */
+    public Builder addResult(
         java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
-  
-      message_ = value;
+  ensureResultIsMutable();
+      result_.add(value);
       onChanged();
       return this;
     }
     /**
-     * <code>string message = 1;</code>
+     * <code>repeated string result = 1;</code>
      */
-    public Builder clearMessage() {
-      
-      message_ = getDefaultInstance().getMessage();
+    public Builder addAllResult(
+        java.lang.Iterable<java.lang.String> values) {
+      ensureResultIsMutable();
+      com.google.protobuf.AbstractMessageLite.Builder.addAll(
+          values, result_);
       onChanged();
       return this;
     }
     /**
-     * <code>string message = 1;</code>
+     * <code>repeated string result = 1;</code>
      */
-    public Builder setMessageBytes(
+    public Builder clearResult() {
+      result_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      bitField0_ = (bitField0_ & ~0x00000001);
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>repeated string result = 1;</code>
+     */
+    public Builder addResultBytes(
         com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-      
-      message_ = value;
+      ensureResultIsMutable();
+      result_.add(value);
       onChanged();
       return this;
     }

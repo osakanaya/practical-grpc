@@ -13,17 +13,17 @@ import uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineResponse;
 import uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineSubGrpc.DeadlineSubImplBase;
 import uk.me.uohiro.protobuf.model.ch7.ex4.Empty;
 
-public class DeadlineSubServer {
-	private static final Logger logger = Logger.getLogger(DeadlineSubServer.class.getName());
+public class DeadlineSub3Server {
+	private static final Logger logger = Logger.getLogger(DeadlineSub3Server.class.getName());
 
 	private final int port;
 	private final Server server;
 
-	public DeadlineSubServer(int port) throws IOException {
+	public DeadlineSub3Server(int port) throws IOException {
 		this(ServerBuilder.forPort(port), port);
 	}
 
-	public DeadlineSubServer(ServerBuilder<?> serverBuilder, int port) {
+	public DeadlineSub3Server(ServerBuilder<?> serverBuilder, int port) {
 		this.port = port;
 		this.server = serverBuilder.addService(new DeadlineSubService()).build();
 	}
@@ -36,7 +36,7 @@ public class DeadlineSubServer {
 			@Override
 			public void run() {
 				System.err.println("*** Shutting down gRPC server since JVM is shutting down.");
-				DeadlineSubServer.this.stop();
+				DeadlineSub3Server.this.stop();
 				System.err.println("*** Server shut down.");
 			}
 		});
@@ -55,7 +55,7 @@ public class DeadlineSubServer {
 	}
 
 	public static void main(String[] args) throws Exception {
-		DeadlineSubServer server = new DeadlineSubServer(8102);
+		DeadlineSub3Server server = new DeadlineSub3Server(8103);
 		server.start();
 		server.blockUntilShutdown();
 	}
@@ -69,20 +69,20 @@ public class DeadlineSubServer {
 			try {
 				Context context = Context.current();
 				context.getDeadline().runOnExpiration(() -> {
-					logger.info("[sub-fast]Deadline exceeded!");
+					logger.info("[sub3-fast]Deadline exceeded!");
 				}, Executors.newSingleThreadScheduledExecutor());
 
-				logger.info("[sub-fast-before]Deadline reached?: " + context.getDeadline().isExpired());
-				logger.info("[sub-fast-before]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
-				logger.info("[sub-fast-before]Invoke cancelled?: " + context.isCancelled());
+				logger.info("[sub3-fast-before]Deadline reached?: " + context.getDeadline().isExpired());
+				logger.info("[sub3-fast-before]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
+				logger.info("[sub3-fast-before]Invoke cancelled?: " + context.isCancelled());
 
 				Thread.sleep(200L);
 				
-				logger.info("[sub-fast-after]Deadline reached?: " + context.getDeadline().isExpired());
-				logger.info("[sub-fast-after]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
-				logger.info("[sub-fast-after]Invoke cancelled?: " + context.isCancelled());
+				logger.info("[sub3-fast-after]Deadline reached?: " + context.getDeadline().isExpired());
+				logger.info("[sub3-fast-after]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
+				logger.info("[sub3-fast-after]Invoke cancelled?: " + context.isCancelled());
 				
-				responseObserver.onNext(DeadlineResponse.newBuilder().addResult("sub-success-fast").build());
+				responseObserver.onNext(DeadlineResponse.newBuilder().addResult("sub3-success-fast").build());
 				responseObserver.onCompleted();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -94,20 +94,20 @@ public class DeadlineSubServer {
 			try {
 				Context context = Context.current();
 				context.getDeadline().runOnExpiration(() -> {
-					logger.info("[sub-slow]Deadline exceeded!");
+					logger.info("[sub3-slow]Deadline exceeded!");
 				}, Executors.newSingleThreadScheduledExecutor());
 
-				logger.info("[sub-slow-before]Deadline reached?: " + context.getDeadline().isExpired());
-				logger.info("[sub-slow-before]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
-				logger.info("[sub-slow-before]Invoke cancelled?: " + context.isCancelled());
+				logger.info("[sub3-slow-before]Deadline reached?: " + context.getDeadline().isExpired());
+				logger.info("[sub3-slow-before]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
+				logger.info("[sub3-slow-before]Invoke cancelled?: " + context.isCancelled());
 
 				Thread.sleep(10000L);
 				
-				logger.info("[sub-slow-after]Deadline reached?: " + context.getDeadline().isExpired());
-				logger.info("[sub-slow-after]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
-				logger.info("[sub-slow-after]Invoke cancelled?: " + context.isCancelled());
+				logger.info("[sub3-slow-after]Deadline reached?: " + context.getDeadline().isExpired());
+				logger.info("[sub3-slow-after]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
+				logger.info("[sub3-slow-after]Invoke cancelled?: " + context.isCancelled());
 
-				responseObserver.onNext(DeadlineResponse.newBuilder().addResult("sub-success-slow").build());
+				responseObserver.onNext(DeadlineResponse.newBuilder().addResult("sub3-success-slow").build());
 				responseObserver.onCompleted();
 			} catch (Exception e) {
 				e.printStackTrace();

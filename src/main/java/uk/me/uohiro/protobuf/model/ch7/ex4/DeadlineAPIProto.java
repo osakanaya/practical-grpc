@@ -33,19 +33,19 @@ public final class DeadlineAPIProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\022ch7/deadline.proto\022\007ch7.ex4\"\007\n\005Empty\"#" +
-      "\n\020DeadlineResponse\022\017\n\007message\030\001 \001(\t2w\n\017D" +
-      "eadlineExample\0221\n\004Fast\022\016.ch7.ex4.Empty\032\031" +
-      ".ch7.ex4.DeadlineResponse\0221\n\004Slow\022\016.ch7." +
-      "ex4.Empty\032\031.ch7.ex4.DeadlineResponse2t\n\014" +
-      "DeadlineMain\0221\n\004Fast\022\016.ch7.ex4.Empty\032\031.c" +
-      "h7.ex4.DeadlineResponse\0221\n\004Slow\022\016.ch7.ex" +
-      "4.Empty\032\031.ch7.ex4.DeadlineResponse2s\n\013De" +
-      "adlineSub\0221\n\004Fast\022\016.ch7.ex4.Empty\032\031.ch7." +
-      "ex4.DeadlineResponse\0221\n\004Slow\022\016.ch7.ex4.E" +
-      "mpty\032\031.ch7.ex4.DeadlineResponseB;\n#uk.me" +
-      ".uohiro.protobuf.model.ch7.ex4B\020Deadline" +
-      "APIProtoH\001P\001b\006proto3"
+      "\n\022ch7/deadline.proto\022\007ch7.ex4\"\007\n\005Empty\"\"" +
+      "\n\020DeadlineResponse\022\016\n\006result\030\001 \003(\t2w\n\017De" +
+      "adlineExample\0221\n\004Fast\022\016.ch7.ex4.Empty\032\031." +
+      "ch7.ex4.DeadlineResponse\0221\n\004Slow\022\016.ch7.e" +
+      "x4.Empty\032\031.ch7.ex4.DeadlineResponse2t\n\014D" +
+      "eadlineMain\0221\n\004Fast\022\016.ch7.ex4.Empty\032\031.ch" +
+      "7.ex4.DeadlineResponse\0221\n\004Slow\022\016.ch7.ex4" +
+      ".Empty\032\031.ch7.ex4.DeadlineResponse2s\n\013Dea" +
+      "dlineSub\0221\n\004Fast\022\016.ch7.ex4.Empty\032\031.ch7.e" +
+      "x4.DeadlineResponse\0221\n\004Slow\022\016.ch7.ex4.Em" +
+      "pty\032\031.ch7.ex4.DeadlineResponseB;\n#uk.me." +
+      "uohiro.protobuf.model.ch7.ex4B\020DeadlineA" +
+      "PIProtoH\001P\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -70,7 +70,7 @@ public final class DeadlineAPIProto {
     internal_static_ch7_ex4_DeadlineResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ch7_ex4_DeadlineResponse_descriptor,
-        new java.lang.String[] { "Message", });
+        new java.lang.String[] { "Result", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
