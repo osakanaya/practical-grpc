@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import io.grpc.Context;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import io.grpc.stub.ServerCallStreamObserver;
 import io.grpc.stub.StreamObserver;
 import uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineResponse;
 import uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineSubGrpc.DeadlineSubImplBase;
@@ -68,18 +69,30 @@ public class DeadlineSub1Server {
 		public void fast(Empty request, StreamObserver<DeadlineResponse> responseObserver) {
 			try {
 				Context context = Context.current();
-				context.getDeadline().runOnExpiration(() -> {
-					logger.info("[sub1-fast]Deadline exceeded!");
-				}, Executors.newSingleThreadScheduledExecutor());
+				if (context.getDeadline() != null) {
+					context.getDeadline().runOnExpiration(() -> {
+						logger.info("[sub1-fast]Deadline exceeded!");
+					}, Executors.newSingleThreadScheduledExecutor());
+				}
 
-				logger.info("[sub1-fast-before]Deadline reached?: " + context.getDeadline().isExpired());
-				logger.info("[sub1-fast-before]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
+				ServerCallStreamObserver<DeadlineResponse> streamObserver = 
+						(ServerCallStreamObserver<DeadlineResponse>)responseObserver;
+				streamObserver.setOnCancelHandler(() -> {
+					logger.warning("[sub1-fast-after]Call cancelled by client!");
+				});
+
+				if (context.getDeadline() != null) {
+					logger.info("[sub1-fast-before]Deadline reached?: " + context.getDeadline().isExpired());
+					logger.info("[sub1-fast-before]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
+				}
 				logger.info("[sub1-fast-before]Invoke cancelled?: " + context.isCancelled());
 
 				Thread.sleep(200L);
 				
-				logger.info("[sub1-fast-after]Deadline reached?: " + context.getDeadline().isExpired());
-				logger.info("[sub1-fast-after]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
+				if (context.getDeadline() != null) {
+					logger.info("[sub1-fast-after]Deadline reached?: " + context.getDeadline().isExpired());
+					logger.info("[sub1-fast-after]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
+				}
 				logger.info("[sub1-fast-after]Invoke cancelled?: " + context.isCancelled());
 				
 				responseObserver.onNext(DeadlineResponse.newBuilder().addResult("sub1-success-fast").build());
@@ -93,18 +106,30 @@ public class DeadlineSub1Server {
 		public void slow(Empty request, StreamObserver<DeadlineResponse> responseObserver) {
 			try {
 				Context context = Context.current();
-				context.getDeadline().runOnExpiration(() -> {
-					logger.info("[sub1-slow]Deadline exceeded!");
-				}, Executors.newSingleThreadScheduledExecutor());
+				if (context.getDeadline() != null) {
+					context.getDeadline().runOnExpiration(() -> {
+						logger.info("[sub1-slow]Deadline exceeded!");
+					}, Executors.newSingleThreadScheduledExecutor());
+				}
 
-				logger.info("[sub1-slow-before]Deadline reached?: " + context.getDeadline().isExpired());
-				logger.info("[sub1-slow-before]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
+				ServerCallStreamObserver<DeadlineResponse> streamObserver = 
+						(ServerCallStreamObserver<DeadlineResponse>)responseObserver;
+				streamObserver.setOnCancelHandler(() -> {
+					logger.warning("[sub1-slow-after]Call cancelled by client!");
+				});
+
+				if (context.getDeadline() != null) {
+					logger.info("[sub1-slow-before]Deadline reached?: " + context.getDeadline().isExpired());
+					logger.info("[sub1-slow-before]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
+				}
 				logger.info("[sub1-slow-before]Invoke cancelled?: " + context.isCancelled());
 
 				Thread.sleep(10000L);
-				
-				logger.info("[sub1-slow-after]Deadline reached?: " + context.getDeadline().isExpired());
-				logger.info("[sub1-slow-after]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
+
+				if (context.getDeadline() != null) {
+					logger.info("[sub1-slow-after]Deadline reached?: " + context.getDeadline().isExpired());
+					logger.info("[sub1-slow-after]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
+				}
 				logger.info("[sub1-slow-after]Invoke cancelled?: " + context.isCancelled());
 
 				responseObserver.onNext(DeadlineResponse.newBuilder().addResult("sub1-success-slow").build());

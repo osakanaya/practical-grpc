@@ -14,24 +14,24 @@ import com.google.common.util.concurrent.MoreExecutors;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineExampleGrpc;
-import uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineExampleGrpc.DeadlineExampleFutureStub;
+import uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineMainGrpc;
+import uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineMainGrpc.DeadlineMainFutureStub;
 import uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineResponse;
 import uk.me.uohiro.protobuf.model.ch7.ex4.Empty;
 
-public class CancellationClient {
-	private static final Logger logger = Logger.getLogger(CancellationClient.class.getName());
+public class CancellationPropagationClient {
+	private static final Logger logger = Logger.getLogger(CancellationPropagationClient.class.getName());
 
 	private final ManagedChannel channel;
-	private final DeadlineExampleFutureStub futureStub;
+	private final DeadlineMainFutureStub futureStub;
 
-	public CancellationClient(String host, int port) {
+	public CancellationPropagationClient(String host, int port) {
 		this(ManagedChannelBuilder.forAddress(host, port).usePlaintext());
 	}
 
-	public CancellationClient(ManagedChannelBuilder<?> channelBuilder) {
+	public CancellationPropagationClient(ManagedChannelBuilder<?> channelBuilder) {
 		channel = channelBuilder.build();
-		futureStub = DeadlineExampleGrpc.newFutureStub(channel);
+		futureStub = DeadlineMainGrpc.newFutureStub(channel);
 	}
 
 	public void shutdown() throws InterruptedException {
@@ -87,7 +87,7 @@ public class CancellationClient {
 
 	public static void main(String[] args) throws Exception {
 
-		CancellationClient client = new CancellationClient("localhost", 8080);
+		CancellationPropagationClient client = new CancellationPropagationClient("localhost", 8100);
 
 		try {
 			client.access();
