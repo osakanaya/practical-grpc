@@ -68,6 +68,9 @@ public class DeadlineSubServer {
 		public void fast(Empty request, StreamObserver<DeadlineResponse> responseObserver) {
 			try {
 				Context context = Context.current();
+				context.getDeadline().runOnExpiration(() -> {
+					logger.info("[sub-fast]Deadline exceeded!");
+				}, Executors.newSingleThreadScheduledExecutor());
 
 				logger.info("[sub-fast-before]Deadline reached?: " + context.getDeadline().isExpired());
 				logger.info("[sub-fast-before]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
@@ -78,10 +81,6 @@ public class DeadlineSubServer {
 				logger.info("[sub-fast-after]Deadline reached?: " + context.getDeadline().isExpired());
 				logger.info("[sub-fast-after]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
 				logger.info("[sub-fast-after]Invoke cancelled?: " + context.isCancelled());
-				
-				context.getDeadline().runOnExpiration(() -> {
-					logger.info("[sub-fast]Deadline exceeded!");
-				}, Executors.newSingleThreadScheduledExecutor());
 				
 				responseObserver.onNext(DeadlineResponse.newBuilder().setMessage("sub-success-fast").build());
 				responseObserver.onCompleted();
@@ -94,6 +93,9 @@ public class DeadlineSubServer {
 		public void slow(Empty request, StreamObserver<DeadlineResponse> responseObserver) {
 			try {
 				Context context = Context.current();
+				context.getDeadline().runOnExpiration(() -> {
+					logger.info("[sub-slow]Deadline exceeded!");
+				}, Executors.newSingleThreadScheduledExecutor());
 
 				logger.info("[sub-slow-before]Deadline reached?: " + context.getDeadline().isExpired());
 				logger.info("[sub-slow-before]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
@@ -104,10 +106,6 @@ public class DeadlineSubServer {
 				logger.info("[sub-slow-after]Deadline reached?: " + context.getDeadline().isExpired());
 				logger.info("[sub-slow-after]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
 				logger.info("[sub-slow-after]Invoke cancelled?: " + context.isCancelled());
-
-				context.getDeadline().runOnExpiration(() -> {
-					logger.info("[sub-slow]Deadline exceeded!");
-				}, Executors.newSingleThreadScheduledExecutor());
 
 				responseObserver.onNext(DeadlineResponse.newBuilder().setMessage("sub-success-slow").build());
 				responseObserver.onCompleted();

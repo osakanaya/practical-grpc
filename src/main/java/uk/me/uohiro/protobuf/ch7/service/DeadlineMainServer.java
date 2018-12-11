@@ -15,7 +15,6 @@ import uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineMainGrpc.DeadlineMainImplBase
 import uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineResponse;
 import uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineSubGrpc;
 import uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineSubGrpc.DeadlineSubBlockingStub;
-import uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineSubGrpc.DeadlineSubImplBase;
 import uk.me.uohiro.protobuf.model.ch7.ex4.Empty;
 
 public class DeadlineMainServer {
@@ -32,16 +31,15 @@ public class DeadlineMainServer {
 		this(ServerBuilder.forPort(port), host, port);
 	}
 
-	public DeadlineMainServer(ServerBuilder<?> serverBuilder, int port) {
+	public DeadlineMainServer(ServerBuilder<?> serverBuilder, String host, int port) {
 		this.host = host;
 		this.port = port;
 		
 		deadlineSubServiceChannel = NettyChannelBuilder.forAddress(host, 8102).usePlaintext().build();
 		deadlineSubServiceBlockingStub = DeadlineSubGrpc.newBlockingStub(deadlineSubServiceChannel);
 
-		deadlineMainService = new 
-		
-		this.server = serverBuilder.addService(new DeadlineSubService()).build();
+		DeadlineMainService deadlineMainService = new DeadlineMainService(deadlineSubServiceBlockingStub);
+		this.server = serverBuilder.addService(deadlineMainService).build();
 	}
 
 	public void start() throws IOException {
@@ -71,7 +69,7 @@ public class DeadlineMainServer {
 	}
 
 	public static void main(String[] args) throws Exception {
-		DeadlineMainServer server = new DeadlineMainServer(8101);
+		DeadlineMainServer server = new DeadlineMainServer("localhost", 8101);
 		server.start();
 		server.blockUntilShutdown();
 	}
@@ -87,15 +85,22 @@ public class DeadlineMainServer {
 		public void fast(Empty request, StreamObserver<DeadlineResponse> responseObserver) {
 			try {
 				Context context = Context.current();
-				logger.info("[main-fast]Deadline reached?: " + context.getDeadline().isExpired());
-				logger.info("[main-fast]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
-				logger.info("[main-fast]Invoke cancelled?: " + context.isCancelled());
-				
 				context.getDeadline().runOnExpiration(() -> {
 					logger.info("[main-fast]Deadline exceeded!");
 				}, Executors.newSingleThreadScheduledExecutor());
+
+				logger.info("[main-fast-before]Deadline reached?: " + context.getDeadline().isExpired());
+				logger.info("[main-fast-before]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
+				logger.info("[main-fast-before]Invoke cancelled?: " + context.isCancelled());
 				
-				responseObserver.onNext(DeadlineResponse.newBuilder().setMessage("main-success-fast").build());
+				DeadlineResponse subResponse = deadlineSubServiceBlockingStub.fast(Empty.newBuilder().build());
+				
+				logger.info("[main-fast-after]Deadline reached?: " + context.getDeadline().isExpired());
+				logger.info("[main-fast-after]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
+				logger.info("[main-fast-after]Invoke cancelled?: " + context.isCancelled());
+
+				DeadlineResponse mainResponse = DeadlineResponse.newBuilder().setMessage("maim-success-fast," + subResponse.getMessage()).build();
+				responseObserver.onNext(mainResponse);
 				responseObserver.onCompleted();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -105,18 +110,23 @@ public class DeadlineMainServer {
 		@Override
 		public void slow(Empty request, StreamObserver<DeadlineResponse> responseObserver) {
 			try {
-				Thread.sleep(10000L);
-				
 				Context context = Context.current();
-				logger.info("[slow]Deadline reached?: " + context.getDeadline().isExpired());
-				logger.info("[slow]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
-				logger.info("[slow]Invoke cancelled?: " + context.isCancelled());
-
 				context.getDeadline().runOnExpiration(() -> {
-					logger.info("[slow]Deadline exceeded!");
+					logger.info("[main-slow]Deadline exceeded!");
 				}, Executors.newSingleThreadScheduledExecutor());
 
-				responseObserver.onNext(DeadlineResponse.newBuilder().setMessage("success - slow").build());
+				logger.info("[main-slow-before]Deadline reached?: " + context.getDeadline().isExpired());
+				logger.info("[main-slow-before]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
+				logger.info("[main-slow-before]Invoke cancelled?: " + context.isCancelled());
+				
+				DeadlineResponse subResponse = deadlineSubServiceBlockingStub.slow(Empty.newBuilder().build());
+				
+				logger.info("[main-slow-after]Deadline reached?: " + context.getDeadline().isExpired());
+				logger.info("[main-slow-after]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
+				logger.info("[main-slow-after]Invoke cancelled?: " + context.isCancelled());
+
+				DeadlineResponse mainResponse = DeadlineResponse.newBuilder().setMessage("maim-success-slow," + subResponse.getMessage()).build();
+				responseObserver.onNext(mainResponse);
 				responseObserver.onCompleted();
 			} catch (Exception e) {
 				e.printStackTrace();
