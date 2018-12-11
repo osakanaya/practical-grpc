@@ -11,7 +11,6 @@ import io.grpc.Context;
 import io.grpc.Context.CancellationListener;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
-import io.grpc.stub.ServerCallStreamObserver;
 import io.grpc.stub.StreamObserver;
 import uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineExampleGrpc.DeadlineExampleImplBase;
 import uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineResponse;
@@ -121,17 +120,17 @@ public class CancellationServer2 {
 					}, Executors.newSingleThreadScheduledExecutor());
 				}
 
-				ServerCallStreamObserver<DeadlineResponse> streamObserver = 
-						(ServerCallStreamObserver<DeadlineResponse>)responseObserver;
-				
-				streamObserver.setOnCancelHandler(() -> {
-					logger.warning("[slow-after]Call cancelled by client!");
-					if (context.getDeadline() != null) {
-						logger.info("[slow-after]Deadline reached?: " + context.getDeadline().isExpired());
-						logger.info("[slow-after]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
+				Context.current().withCancellation().addListener(new CancellationListener() {
+					@Override
+					public void cancelled(Context context) {
+						logger.warning("[fast-after]Call cancelled by client!");
+						if (context.getDeadline() != null) {
+							logger.info("[fast-after]Deadline reached?: " + context.getDeadline().isExpired());
+							logger.info("[fast-after]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
+						}
+						logger.info("[fast-after]Invoke cancelled?: " + context.isCancelled());
 					}
-					logger.info("[slow-after]Invoke cancelled?: " + context.isCancelled());
-				});
+				}, MoreExecutors.directExecutor());
 				
 				if (context.getDeadline() != null) {
 					logger.info("[slow-before]Deadline reached?: " + context.getDeadline().isExpired());
