@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package ch7.ex4;
+
+option java_package = "uk.me.uohiro.protobuf.model.ch7.ex4";
+option java_outer_classname = "DeadlineAPIProto";
+option java_multiple_files = true;
+option optimize_for = SPEED;
+
+service DeadlineExample {
+	rpc Fast(Empty) returns (DeadlineResponse);
+	rpc Slow(Empty) returns (DeadlineResponse);
+}
+
+service DeadlineMain {
+	rpc Fast(Empty) returns (DeadlineResponse);
+	rpc Slow(Empty) returns (DeadlineResponse);
+}
+
+service DeadlineSub {
+	rpc Fast(Empty) returns (DeadlineResponse);
+	rpc Slow(Empty) returns (DeadlineResponse);
+}
+
+message Empty {
+}
+
+message DeadlineResponse {
+	string message = 1;
+}
