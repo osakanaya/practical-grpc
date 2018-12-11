@@ -101,7 +101,7 @@ public class DeadlineSub3Server {
 				logger.info("[sub3-slow-before]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
 				logger.info("[sub3-slow-before]Invoke cancelled?: " + context.isCancelled());
 
-				Thread.sleep(10000L);
+				Thread.sleep(500L);
 				
 				logger.info("[sub3-slow-after]Deadline reached?: " + context.getDeadline().isExpired());
 				logger.info("[sub3-slow-after]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));

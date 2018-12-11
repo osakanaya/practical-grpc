@@ -101,7 +101,7 @@ public class DeadlineSub2Server {
 				logger.info("[sub2-slow-before]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
 				logger.info("[sub2-slow-before]Invoke cancelled?: " + context.isCancelled());
 
-				Thread.sleep(10000L);
+				Thread.sleep(500L);
 				
 				logger.info("[sub2-slow-after]Deadline reached?: " + context.getDeadline().isExpired());
 				logger.info("[sub2-slow-after]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
