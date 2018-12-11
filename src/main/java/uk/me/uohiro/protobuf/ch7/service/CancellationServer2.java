@@ -123,12 +123,12 @@ public class CancellationServer2 {
 				Context.current().withCancellation().addListener(new CancellationListener() {
 					@Override
 					public void cancelled(Context context) {
-						logger.warning("[fast-after]Call cancelled by client!");
+						logger.warning("[slow-after]Call cancelled by client!");
 						if (context.getDeadline() != null) {
-							logger.info("[fast-after]Deadline reached?: " + context.getDeadline().isExpired());
-							logger.info("[fast-after]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
+							logger.info("[slow-after]Deadline reached?: " + context.getDeadline().isExpired());
+							logger.info("[slow-after]Deadline time remaining: " + context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS));
 						}
-						logger.info("[fast-after]Invoke cancelled?: " + context.isCancelled());
+						logger.info("[slow-after]Invoke cancelled?: " + context.isCancelled());
 					}
 				}, MoreExecutors.directExecutor());
 				

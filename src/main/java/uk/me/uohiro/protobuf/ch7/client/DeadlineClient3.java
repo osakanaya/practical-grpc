@@ -19,17 +19,17 @@ import uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineExampleGrpc.DeadlineExampleFu
 import uk.me.uohiro.protobuf.model.ch7.ex4.DeadlineResponse;
 import uk.me.uohiro.protobuf.model.ch7.ex4.Empty;
 
-public class CancellationClient {
-	private static final Logger logger = Logger.getLogger(CancellationClient.class.getName());
+public class DeadlineClient3 {
+	private static final Logger logger = Logger.getLogger(DeadlineClient3.class.getName());
 
 	private final ManagedChannel channel;
 	private final DeadlineExampleFutureStub futureStub;
 
-	public CancellationClient(String host, int port) {
+	public DeadlineClient3(String host, int port) {
 		this(ManagedChannelBuilder.forAddress(host, port).usePlaintext());
 	}
 
-	public CancellationClient(ManagedChannelBuilder<?> channelBuilder) {
+	public DeadlineClient3(ManagedChannelBuilder<?> channelBuilder) {
 		channel = channelBuilder.build();
 		futureStub = DeadlineExampleGrpc.newFutureStub(channel);
 	}
@@ -65,29 +65,29 @@ public class CancellationClient {
 	public void cancel() throws InterruptedException {
 		Empty request = Empty.newBuilder().build();
 		
-		ListenableFuture<DeadlineResponse> responseFuture = futureStub.slow(request);
-		
-		Futures.addCallback(responseFuture, new FutureCallback<DeadlineResponse>() {
+		CountDownLatch finishLatch = new CountDownLatch(1);
 
+		ListenableFuture<DeadlineResponse> responseFuture = futureStub.withDeadlineAfter(3000L, TimeUnit.MILLISECONDS).slow(request);
+		Futures.addCallback(responseFuture, new FutureCallback<DeadlineResponse>() {
 			@Override
 			public void onFailure(Throwable t) {
 				warning("Cannot get result. Message: {0}", t.getMessage());
+				finishLatch.countDown();
 			}
 
 			@Override
 			public void onSuccess(@Nullable DeadlineResponse response) {
 				info("Result: {0}", String.join(",", response.getResultList()));
+				finishLatch.countDown();
 			}
 		}, MoreExecutors.directExecutor());
 		
-		Thread.sleep(1000L);
-		
-		responseFuture.cancel(true);
+		finishLatch.await();
 	}
 
 	public static void main(String[] args) throws Exception {
 
-		CancellationClient client = new CancellationClient("localhost", 8080);
+		DeadlineClient3 client = new DeadlineClient3("localhost", 8080);
 
 		try {
 			client.access();
