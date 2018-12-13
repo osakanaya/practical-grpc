@@ -3,7 +3,7 @@ syntax = "proto3";
 package ch10.ex2;
 
 option java_package = "uk.me.uohiro.protobuf.model.ch10.ex2";
-option java_outer_classname = "VersioningAPIProto";
+option java_outer_classname = "BoxingAPIProto";
 option java_multiple_files = true;
 option optimize_for = SPEED;
 

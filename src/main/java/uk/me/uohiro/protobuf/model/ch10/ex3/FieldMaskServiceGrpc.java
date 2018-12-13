@@ -1,4 +1,4 @@
-package uk.me.uohiro.protobuf.model.ch10.ex2;
+package uk.me.uohiro.protobuf.model.ch10.ex3;
 
 import static io.grpc.MethodDescriptor.generateFullMethodName;
 import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
@@ -19,39 +19,39 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
  */
 @javax.annotation.Generated(
     value = "by gRPC proto compiler (version 1.16.1)",
-    comments = "Source: ch10/ex2/boxing.proto")
-public final class BoxingServiceGrpc {
+    comments = "Source: ch10/ex3/field_mask.proto")
+public final class FieldMaskServiceGrpc {
 
-  private BoxingServiceGrpc() {}
+  private FieldMaskServiceGrpc() {}
 
-  public static final String SERVICE_NAME = "ch10.ex2.BoxingService";
+  public static final String SERVICE_NAME = "ch10.ex3.FieldMaskService";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<uk.me.uohiro.protobuf.model.ch10.ex2.BoxingRequest,
-      uk.me.uohiro.protobuf.model.ch10.ex2.BoxingResponse> getProcessRequestMethod;
+  private static volatile io.grpc.MethodDescriptor<uk.me.uohiro.protobuf.model.ch10.ex3.FieldMaskRequest,
+      uk.me.uohiro.protobuf.model.ch10.ex3.FieldMaskResponse> getProcessRequestMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "ProcessRequest",
-      requestType = uk.me.uohiro.protobuf.model.ch10.ex2.BoxingRequest.class,
-      responseType = uk.me.uohiro.protobuf.model.ch10.ex2.BoxingResponse.class,
+      requestType = uk.me.uohiro.protobuf.model.ch10.ex3.FieldMaskRequest.class,
+      responseType = uk.me.uohiro.protobuf.model.ch10.ex3.FieldMaskResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<uk.me.uohiro.protobuf.model.ch10.ex2.BoxingRequest,
-      uk.me.uohiro.protobuf.model.ch10.ex2.BoxingResponse> getProcessRequestMethod() {
-    io.grpc.MethodDescriptor<uk.me.uohiro.protobuf.model.ch10.ex2.BoxingRequest, uk.me.uohiro.protobuf.model.ch10.ex2.BoxingResponse> getProcessRequestMethod;
-    if ((getProcessRequestMethod = BoxingServiceGrpc.getProcessRequestMethod) == null) {
-      synchronized (BoxingServiceGrpc.class) {
-        if ((getProcessRequestMethod = BoxingServiceGrpc.getProcessRequestMethod) == null) {
-          BoxingServiceGrpc.getProcessRequestMethod = getProcessRequestMethod = 
-              io.grpc.MethodDescriptor.<uk.me.uohiro.protobuf.model.ch10.ex2.BoxingRequest, uk.me.uohiro.protobuf.model.ch10.ex2.BoxingResponse>newBuilder()
+  public static io.grpc.MethodDescriptor<uk.me.uohiro.protobuf.model.ch10.ex3.FieldMaskRequest,
+      uk.me.uohiro.protobuf.model.ch10.ex3.FieldMaskResponse> getProcessRequestMethod() {
+    io.grpc.MethodDescriptor<uk.me.uohiro.protobuf.model.ch10.ex3.FieldMaskRequest, uk.me.uohiro.protobuf.model.ch10.ex3.FieldMaskResponse> getProcessRequestMethod;
+    if ((getProcessRequestMethod = FieldMaskServiceGrpc.getProcessRequestMethod) == null) {
+      synchronized (FieldMaskServiceGrpc.class) {
+        if ((getProcessRequestMethod = FieldMaskServiceGrpc.getProcessRequestMethod) == null) {
+          FieldMaskServiceGrpc.getProcessRequestMethod = getProcessRequestMethod = 
+              io.grpc.MethodDescriptor.<uk.me.uohiro.protobuf.model.ch10.ex3.FieldMaskRequest, uk.me.uohiro.protobuf.model.ch10.ex3.FieldMaskResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "ch10.ex2.BoxingService", "ProcessRequest"))
+                  "ch10.ex3.FieldMaskService", "ProcessRequest"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  uk.me.uohiro.protobuf.model.ch10.ex2.BoxingRequest.getDefaultInstance()))
+                  uk.me.uohiro.protobuf.model.ch10.ex3.FieldMaskRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  uk.me.uohiro.protobuf.model.ch10.ex2.BoxingResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new BoxingServiceMethodDescriptorSupplier("ProcessRequest"))
+                  uk.me.uohiro.protobuf.model.ch10.ex3.FieldMaskResponse.getDefaultInstance()))
+                  .setSchemaDescriptor(new FieldMaskServiceMethodDescriptorSupplier("ProcessRequest"))
                   .build();
           }
         }
@@ -62,34 +62,34 @@ public final class BoxingServiceGrpc {
   /**
    * Creates a new async stub that supports all call types for the service
    */
-  public static BoxingServiceStub newStub(io.grpc.Channel channel) {
-    return new BoxingServiceStub(channel);
+  public static FieldMaskServiceStub newStub(io.grpc.Channel channel) {
+    return new FieldMaskServiceStub(channel);
   }
 
   /**
    * Creates a new blocking-style stub that supports unary and streaming output calls on the service
    */
-  public static BoxingServiceBlockingStub newBlockingStub(
+  public static FieldMaskServiceBlockingStub newBlockingStub(
       io.grpc.Channel channel) {
-    return new BoxingServiceBlockingStub(channel);
+    return new FieldMaskServiceBlockingStub(channel);
   }
 
   /**
    * Creates a new ListenableFuture-style stub that supports unary calls on the service
    */
-  public static BoxingServiceFutureStub newFutureStub(
+  public static FieldMaskServiceFutureStub newFutureStub(
       io.grpc.Channel channel) {
-    return new BoxingServiceFutureStub(channel);
+    return new FieldMaskServiceFutureStub(channel);
   }
 
   /**
    */
-  public static abstract class BoxingServiceImplBase implements io.grpc.BindableService {
+  public static abstract class FieldMaskServiceImplBase implements io.grpc.BindableService {
 
     /**
      */
-    public void processRequest(uk.me.uohiro.protobuf.model.ch10.ex2.BoxingRequest request,
-        io.grpc.stub.StreamObserver<uk.me.uohiro.protobuf.model.ch10.ex2.BoxingResponse> responseObserver) {
+    public void processRequest(uk.me.uohiro.protobuf.model.ch10.ex3.FieldMaskRequest request,
+        io.grpc.stub.StreamObserver<uk.me.uohiro.protobuf.model.ch10.ex3.FieldMaskResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getProcessRequestMethod(), responseObserver);
     }
 
@@ -99,8 +99,8 @@ public final class BoxingServiceGrpc {
             getProcessRequestMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                uk.me.uohiro.protobuf.model.ch10.ex2.BoxingRequest,
-                uk.me.uohiro.protobuf.model.ch10.ex2.BoxingResponse>(
+                uk.me.uohiro.protobuf.model.ch10.ex3.FieldMaskRequest,
+                uk.me.uohiro.protobuf.model.ch10.ex3.FieldMaskResponse>(
                   this, METHODID_PROCESS_REQUEST)))
           .build();
     }
@@ -108,26 +108,26 @@ public final class BoxingServiceGrpc {
 
   /**
    */
-  public static final class BoxingServiceStub extends io.grpc.stub.AbstractStub<BoxingServiceStub> {
-    private BoxingServiceStub(io.grpc.Channel channel) {
+  public static final class FieldMaskServiceStub extends io.grpc.stub.AbstractStub<FieldMaskServiceStub> {
+    private FieldMaskServiceStub(io.grpc.Channel channel) {
       super(channel);
     }
 
-    private BoxingServiceStub(io.grpc.Channel channel,
+    private FieldMaskServiceStub(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected BoxingServiceStub build(io.grpc.Channel channel,
+    protected FieldMaskServiceStub build(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
-      return new BoxingServiceStub(channel, callOptions);
+      return new FieldMaskServiceStub(channel, callOptions);
     }
 
     /**
      */
-    public void processRequest(uk.me.uohiro.protobuf.model.ch10.ex2.BoxingRequest request,
-        io.grpc.stub.StreamObserver<uk.me.uohiro.protobuf.model.ch10.ex2.BoxingResponse> responseObserver) {
+    public void processRequest(uk.me.uohiro.protobuf.model.ch10.ex3.FieldMaskRequest request,
+        io.grpc.stub.StreamObserver<uk.me.uohiro.protobuf.model.ch10.ex3.FieldMaskResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getProcessRequestMethod(), getCallOptions()), request, responseObserver);
     }
@@ -135,25 +135,25 @@ public final class BoxingServiceGrpc {
 
   /**
    */
-  public static final class BoxingServiceBlockingStub extends io.grpc.stub.AbstractStub<BoxingServiceBlockingStub> {
-    private BoxingServiceBlockingStub(io.grpc.Channel channel) {
+  public static final class FieldMaskServiceBlockingStub extends io.grpc.stub.AbstractStub<FieldMaskServiceBlockingStub> {
+    private FieldMaskServiceBlockingStub(io.grpc.Channel channel) {
       super(channel);
     }
 
-    private BoxingServiceBlockingStub(io.grpc.Channel channel,
+    private FieldMaskServiceBlockingStub(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected BoxingServiceBlockingStub build(io.grpc.Channel channel,
+    protected FieldMaskServiceBlockingStub build(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
-      return new BoxingServiceBlockingStub(channel, callOptions);
+      return new FieldMaskServiceBlockingStub(channel, callOptions);
     }
 
     /**
      */
-    public uk.me.uohiro.protobuf.model.ch10.ex2.BoxingResponse processRequest(uk.me.uohiro.protobuf.model.ch10.ex2.BoxingRequest request) {
+    public uk.me.uohiro.protobuf.model.ch10.ex3.FieldMaskResponse processRequest(uk.me.uohiro.protobuf.model.ch10.ex3.FieldMaskRequest request) {
       return blockingUnaryCall(
           getChannel(), getProcessRequestMethod(), getCallOptions(), request);
     }
@@ -161,26 +161,26 @@ public final class BoxingServiceGrpc {
 
   /**
    */
-  public static final class BoxingServiceFutureStub extends io.grpc.stub.AbstractStub<BoxingServiceFutureStub> {
-    private BoxingServiceFutureStub(io.grpc.Channel channel) {
+  public static final class FieldMaskServiceFutureStub extends io.grpc.stub.AbstractStub<FieldMaskServiceFutureStub> {
+    private FieldMaskServiceFutureStub(io.grpc.Channel channel) {
       super(channel);
     }
 
-    private BoxingServiceFutureStub(io.grpc.Channel channel,
+    private FieldMaskServiceFutureStub(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected BoxingServiceFutureStub build(io.grpc.Channel channel,
+    protected FieldMaskServiceFutureStub build(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
-      return new BoxingServiceFutureStub(channel, callOptions);
+      return new FieldMaskServiceFutureStub(channel, callOptions);
     }
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<uk.me.uohiro.protobuf.model.ch10.ex2.BoxingResponse> processRequest(
-        uk.me.uohiro.protobuf.model.ch10.ex2.BoxingRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<uk.me.uohiro.protobuf.model.ch10.ex3.FieldMaskResponse> processRequest(
+        uk.me.uohiro.protobuf.model.ch10.ex3.FieldMaskRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getProcessRequestMethod(), getCallOptions()), request);
     }
@@ -193,10 +193,10 @@ public final class BoxingServiceGrpc {
       io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
-    private final BoxingServiceImplBase serviceImpl;
+    private final FieldMaskServiceImplBase serviceImpl;
     private final int methodId;
 
-    MethodHandlers(BoxingServiceImplBase serviceImpl, int methodId) {
+    MethodHandlers(FieldMaskServiceImplBase serviceImpl, int methodId) {
       this.serviceImpl = serviceImpl;
       this.methodId = methodId;
     }
@@ -206,8 +206,8 @@ public final class BoxingServiceGrpc {
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
         case METHODID_PROCESS_REQUEST:
-          serviceImpl.processRequest((uk.me.uohiro.protobuf.model.ch10.ex2.BoxingRequest) request,
-              (io.grpc.stub.StreamObserver<uk.me.uohiro.protobuf.model.ch10.ex2.BoxingResponse>) responseObserver);
+          serviceImpl.processRequest((uk.me.uohiro.protobuf.model.ch10.ex3.FieldMaskRequest) request,
+              (io.grpc.stub.StreamObserver<uk.me.uohiro.protobuf.model.ch10.ex3.FieldMaskResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -225,32 +225,32 @@ public final class BoxingServiceGrpc {
     }
   }
 
-  private static abstract class BoxingServiceBaseDescriptorSupplier
+  private static abstract class FieldMaskServiceBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
-    BoxingServiceBaseDescriptorSupplier() {}
+    FieldMaskServiceBaseDescriptorSupplier() {}
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
-      return uk.me.uohiro.protobuf.model.ch10.ex2.BoxingAPIProto.getDescriptor();
+      return uk.me.uohiro.protobuf.model.ch10.ex3.FieldMaskAPIProto.getDescriptor();
     }
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.ServiceDescriptor getServiceDescriptor() {
-      return getFileDescriptor().findServiceByName("BoxingService");
+      return getFileDescriptor().findServiceByName("FieldMaskService");
     }
   }
 
-  private static final class BoxingServiceFileDescriptorSupplier
-      extends BoxingServiceBaseDescriptorSupplier {
-    BoxingServiceFileDescriptorSupplier() {}
+  private static final class FieldMaskServiceFileDescriptorSupplier
+      extends FieldMaskServiceBaseDescriptorSupplier {
+    FieldMaskServiceFileDescriptorSupplier() {}
   }
 
-  private static final class BoxingServiceMethodDescriptorSupplier
-      extends BoxingServiceBaseDescriptorSupplier
+  private static final class FieldMaskServiceMethodDescriptorSupplier
+      extends FieldMaskServiceBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
     private final String methodName;
 
-    BoxingServiceMethodDescriptorSupplier(String methodName) {
+    FieldMaskServiceMethodDescriptorSupplier(String methodName) {
       this.methodName = methodName;
     }
 
@@ -265,11 +265,11 @@ public final class BoxingServiceGrpc {
   public static io.grpc.ServiceDescriptor getServiceDescriptor() {
     io.grpc.ServiceDescriptor result = serviceDescriptor;
     if (result == null) {
-      synchronized (BoxingServiceGrpc.class) {
+      synchronized (FieldMaskServiceGrpc.class) {
         result = serviceDescriptor;
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
-              .setSchemaDescriptor(new BoxingServiceFileDescriptorSupplier())
+              .setSchemaDescriptor(new FieldMaskServiceFileDescriptorSupplier())
               .addMethod(getProcessRequestMethod())
               .build();
         }

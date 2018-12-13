@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package ch10.ex3;
+
+option java_package = "uk.me.uohiro.protobuf.model.ch10.ex3";
+option java_outer_classname = "FieldMaskAPIProto";
+option java_multiple_files = true;
+option optimize_for = SPEED;
+
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/wrappers.proto";
+
+service FieldMaskService {
+	rpc ProcessRequest(FieldMaskRequest) returns (FieldMaskResponse);
+}
+
+message FieldMaskRequest {
+	google.protobuf.StringValue string_value = 1;
+	google.protobuf.Int32Value int32_value = 2;
+	NestedMessage nested_message = 3;
+	
+	google.protobuf.FieldMask mask = 4;
+	
+	message NestedMessage {
+		google.protobuf.StringValue string_value = 1;
+		google.protobuf.Int32Value int32_value = 2;
+	}
+}
+
+message FieldMaskResponse {
+}

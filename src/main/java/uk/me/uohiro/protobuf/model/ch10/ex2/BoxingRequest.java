@@ -115,13 +115,13 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return uk.me.uohiro.protobuf.model.ch10.ex2.VersioningAPIProto.internal_static_ch10_ex2_BoxingRequest_descriptor;
+    return uk.me.uohiro.protobuf.model.ch10.ex2.BoxingAPIProto.internal_static_ch10_ex2_BoxingRequest_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return uk.me.uohiro.protobuf.model.ch10.ex2.VersioningAPIProto.internal_static_ch10_ex2_BoxingRequest_fieldAccessorTable
+    return uk.me.uohiro.protobuf.model.ch10.ex2.BoxingAPIProto.internal_static_ch10_ex2_BoxingRequest_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             uk.me.uohiro.protobuf.model.ch10.ex2.BoxingRequest.class, uk.me.uohiro.protobuf.model.ch10.ex2.BoxingRequest.Builder.class);
   }
@@ -428,13 +428,13 @@ private static final long serialVersionUID = 0L;
       uk.me.uohiro.protobuf.model.ch10.ex2.BoxingRequestOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return uk.me.uohiro.protobuf.model.ch10.ex2.VersioningAPIProto.internal_static_ch10_ex2_BoxingRequest_descriptor;
+      return uk.me.uohiro.protobuf.model.ch10.ex2.BoxingAPIProto.internal_static_ch10_ex2_BoxingRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return uk.me.uohiro.protobuf.model.ch10.ex2.VersioningAPIProto.internal_static_ch10_ex2_BoxingRequest_fieldAccessorTable
+      return uk.me.uohiro.protobuf.model.ch10.ex2.BoxingAPIProto.internal_static_ch10_ex2_BoxingRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               uk.me.uohiro.protobuf.model.ch10.ex2.BoxingRequest.class, uk.me.uohiro.protobuf.model.ch10.ex2.BoxingRequest.Builder.class);
     }
@@ -487,7 +487,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return uk.me.uohiro.protobuf.model.ch10.ex2.VersioningAPIProto.internal_static_ch10_ex2_BoxingRequest_descriptor;
+      return uk.me.uohiro.protobuf.model.ch10.ex2.BoxingAPIProto.internal_static_ch10_ex2_BoxingRequest_descriptor;
     }
 
     @java.lang.Override
