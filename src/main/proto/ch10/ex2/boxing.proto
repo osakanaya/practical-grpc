@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package ch10.ex2;
+
+option java_package = "uk.me.uohiro.protobuf.model.ch10.ex2";
+option java_outer_classname = "VersioningAPIProto";
+option java_multiple_files = true;
+option optimize_for = SPEED;
+
+import "google/protobuf/wrappers.proto";
+
+service BoxingService {
+	rpc ProcessRequest(BoxingRequest) returns (BoxingResponse);
+}
+
+message BoxingRequest {
+	google.protobuf.StringValue string_value1 = 1;
+	google.protobuf.StringValue string_value2 = 2;
+	google.protobuf.Int32Value int32_value1 = 3;
+	google.protobuf.Int32Value int32_value2 = 4;
+}
+
+message BoxingResponse {
+	google.protobuf.StringValue string_value1 = 1;
+	google.protobuf.StringValue string_value2 = 2;
+	google.protobuf.Int32Value int32_value1 = 3;
+	google.protobuf.Int32Value int32_value2 = 4;
+}
