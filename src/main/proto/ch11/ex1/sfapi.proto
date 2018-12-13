@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package ch11.ex1;
+
+option java_package = "uk.me.uohiro.protobuf.model.ch11.ex1";
+option java_outer_classname = "StarFriendsAPIProto";
+option java_multiple_files = true;
+option optimize_for = SPEED;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+service StarFriends {
+	rpc GetFilm(GetFilmRequest) returns (GetFilmResponse) {
+		option (google.api.http) = {
+			get: "/sfapi/v1/films/{id}"
+		};
+	};
+	
+	rpc ListFilms(ListFilmsRequest) returns (ListFilmsResponse) {
+		option (google.api.http) = {
+			get: "/sfapi/v1/films"
+		};
+	};
+}
+
+message GetFilmRequest {
+	string id = 1;
+}
+
+message GetFilmResponse {
+	Film film = 1;
+}
+
+message ListFilmsRequest {
+}
+
+message ListFilmsResponse {
+	repeated Film films = 1;
+}
+
+message Film {
+	string id = 1;
+	string title = 2;
+	string director = 3;
+	string producer = 4;
+	google.protobuf.Timestamp release_date = 5;
+}
