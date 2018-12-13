@@ -9,6 +9,7 @@ import io.grpc.ClientInterceptor;
 import io.grpc.ClientInterceptors;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.Metadata;
 import io.grpc.StatusRuntimeException;
 import uk.me.uohiro.protobuf.ch4.interceptors.HeaderClientInterceptor;
 import uk.me.uohiro.protobuf.model.ch4.GetFilmRequest;
@@ -51,6 +52,12 @@ public class StarFriendsAPIClient {
 			System.out.println(response.getFilm());
 		} catch (StatusRuntimeException e) {
 			warning("RPC failed: {0}", e.getStatus());
+			
+			Metadata metadata = e.getTrailers();
+			for (String key : metadata.keys()) {
+				Metadata.Key<String> metadataKey = Metadata.Key.of(key, Metadata.ASCII_STRING_MARSHALLER);				
+				logger.info("header received from server [" + key + "]:" + metadata.get(metadataKey));
+			}
 		}
 	}
 
